@@ -36,7 +36,7 @@ col1, col2 = st.columns([1, 4])  # Adjust width ratio as you like
 with col1:
     st.button("🧹 Clear", on_click=clear_all_fields)
 
-with col2:
+with col4:
     analyze_clicked = st.button("🔍 Analyze Transcript")
 
 # ----------------------------
