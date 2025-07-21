@@ -5,6 +5,9 @@ import re
 import pyperclip
 from google.oauth2.service_account import Credentials
 
+# ----------------------------
+# Page Setup
+# ----------------------------
 st.set_page_config(
     page_title="Lokafy Interview Assistant",
     page_icon="🎤",
@@ -23,12 +26,12 @@ def check_login():
     password = st.session_state.get("password_input")
     if username in users and users[username] == password:
         st.session_state.authenticated = True
+        st.experimental_rerun()
     else:
         st.error("Invalid username or password")
 
 def logout():
-    for key in list(st.session_state.keys()):
-        del st.session_state[key]
+    st.session_state.authenticated = False
     st.experimental_rerun()
 
 if not st.session_state.authenticated:
@@ -37,15 +40,6 @@ if not st.session_state.authenticated:
     st.text_input("Password", type="password", key="password_input")
     st.button("Login", on_click=check_login)
     st.stop()
-
-# ----------------------------
-# Logout Button
-# ----------------------------
-with st.container():
-    col_logout, _ = st.columns([1, 5])
-    with col_logout:
-        if st.button("🚪 Logout"):
-            logout()
 
 # ----------------------------
 # API Keys and setup
@@ -71,6 +65,11 @@ def clear_all_fields():
 # App UI
 # ----------------------------
 st.title("🎤 Lokafy Interview Assistant")
+
+logout_container = st.container()
+with logout_container:
+    if st.button("🚪 Logout"):
+        logout()
 
 st.text_input("👤 Interviewer's Name", key="interviewer")
 st.text_input("🧍 Lokafyer's Name", key="candidate_name")
@@ -142,4 +141,7 @@ Here’s the transcript to base your thoughts on:
 
         st.markdown("📄 [View Interview Sheet on Google Sheets](https://docs.google.com/spreadsheets/d/1bHODbSJmSZpl3iXPovuUDVTFrWph5xwP426OOHvWr08/edit?usp=sharing)")
 
+# ----------------------------
+# Footer
+# ----------------------------
 st.markdown("<div style='position: fixed; bottom: 10px; left: 10px; font-size: 12px; color: #c7c6c6;'>A little tool made with ❤️ by: Yul</div>", unsafe_allow_html=True)
