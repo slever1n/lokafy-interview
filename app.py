@@ -31,8 +31,11 @@ st.text_input("👤 Interviewer's Name", key="interviewer")
 st.text_input("🧍 Candidate's Name", key="candidate_name")
 st.text_area("📝 Paste the call transcript", key="transcript")
 
-st.button("🧹 Clear All Fields", on_click=clear_all_fields)
+col1, col2 = st.columns([5, 1])
 
+with col2:
+    st.caption("Clear")
+    st.button("🧹", on_click=clear_all_fields)
 
 # ----------------------------
 # Analyze Button & Logic
