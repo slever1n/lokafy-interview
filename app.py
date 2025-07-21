@@ -71,15 +71,19 @@ Here’s the transcript to base your thoughts on:
         st.write(response)
 
         # Extract answers using regex
-        q1_match = re.search(r"1\..*?\n(.*?)(?=\n2\.|$)", response, re.DOTALL)
-        q2_match = re.search(r"2\..*?\n(.*?)(?=\n3\.|$)", response, re.DOTALL)
-        q3_match = re.search(r"3\..*?\n(.*?)(?=\n4\.|$)", response, re.DOTALL)
+        q1_match = re.search(r"1\..*?\n(.*?)(?=\n2\.)", response, re.DOTALL)
+        q2_match = re.search(r"2\..*?\n(.*?)(?=\n3\.)", response, re.DOTALL)
+        q3_match = re.search(r"3\..*?\n(.*?)(?=\n4\.)", response, re.DOTALL)
         q4_match = re.search(r"4\..*?\n(.*)", response, re.DOTALL)
 
         q1 = q1_match.group(1).strip() if q1_match else ""
         q2 = q2_match.group(1).strip() if q2_match else ""
         q3 = q3_match.group(1).strip() if q3_match else ""
-        q4_full = q4_match.group(1).strip() if q4_match else ""
+        4_full = q4_match.group(1).strip() if q4_match else ""
+
+        score_match = re.search(r"\b([1-5])\b(?:\s*/\s*5)?", q4_full)
+        score = score_match.group(1) if score_match else "N/A"
+        explanation = q4_full.replace(score, "", 1).strip() if score != "N/A" else q4_full
 
         # Extract score and explanation
         score_match = re.search(r"\b([1-5])\b(?:\s*/\s*5)?", q4_full)
