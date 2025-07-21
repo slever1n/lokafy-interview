@@ -24,7 +24,7 @@ def login(username, password):
     return username in users and users[username] == password
 
 # ---------- Clear Refresh Param if Present ----------
-if "refresh" in st.experimental_get_query_params():
+if "refresh" in st.query_params.():
     st.experimental_set_query_params()
 
 # ---------- Login Screen ----------
