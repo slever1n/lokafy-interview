@@ -22,8 +22,8 @@ def login(username, password):
     return username in users and users[username] == password
 
 # ---------- Clear Refresh Param if Present ----------
-if "refresh" in st.experimental_get_query_params():
-    st.experimental_set_query_params()
+if "refresh" in st.query_params():
+    st.query_params()
 
 # ---------- Login Screen ----------
 if not st.session_state.logged_in:
@@ -40,7 +40,7 @@ if not st.session_state.logged_in:
                 st.session_state.logged_in = True
                 st.session_state.username = username
                 # Add a fake query param to force rerun cleanly
-                st.experimental_set_query_params(refresh="true")
+                st.query_params(refresh="true")
                 st.stop()
             else:
                 st.error("Invalid username or password.")
