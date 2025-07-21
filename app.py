@@ -94,6 +94,15 @@ Here’s the transcript to base your thoughts on:
             pyperclip.copy(response)
             st.success("Response copied!")
 
+        # Extract answers by splitting on numbered questions (1–4)
+        answers = re.split(r"\*\*?\s*\d\.\s.*?\*\*?", response)
+
+        # answers[0] is the intro or empty string; answers[1] to [4] are Q1–Q4
+        q1 = answers[1].strip() if len(answers) > 1 else ""
+        q2 = answers[2].strip() if len(answers) > 2 else ""
+        q3 = answers[3].strip() if len(answers) > 3 else ""
+        q4 = answers[4].strip() if len(answers) > 4 else ""
+
         # Save to Google Sheets
         sheet.append_row([
             st.session_state["interviewer"],
@@ -102,8 +111,7 @@ Here’s the transcript to base your thoughts on:
             q1,
             q2,
             q3,
-            score,
-            explanation
+            q4
         ])
         st.success("✅ Saved to Google Sheets!")
 
