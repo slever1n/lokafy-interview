@@ -21,26 +21,18 @@ client = gspread.authorize(gsheet_creds)
 sheet = client.open("Lokafy Interview Sheet").sheet1
 
 def clear_all_fields():
-    st.session_state["interviewer"] = ""
-    st.session_state["candidate_name"] = ""
-    st.session_state["transcript"] = ""
+    st.session_state.interviewer = ""
+    st.session_state.candidate_name = ""
+    st.session_state.transcript = ""
 
-# ----------------------------
-# UI
-# ----------------------------
 st.title("🎤 Lokafy Interview Assistant")
 
-st.session_state["interviewer"] = st.text_input(
-    "👤 Interviewer's Name", value=st.session_state.get("interviewer", "")
-)
-st.session_state["candidate_name"] = st.text_input(
-    "🧍 Candidate's Name", value=st.session_state.get("candidate_name", "")
-)
-st.session_state["transcript"] = st.text_area(
-    "📝 Paste the call transcript", value=st.session_state.get("transcript", "")
-)
+st.text_input("👤 Interviewer's Name", key="interviewer")
+st.text_input("🧍 Candidate's Name", key="candidate_name")
+st.text_area("📝 Paste the call transcript", key="transcript")
 
 st.button("🧹 Clear All Fields", on_click=clear_all_fields)
+
 
 # ----------------------------
 # Analyze Button & Logic
