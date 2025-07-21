@@ -10,6 +10,8 @@ from google.oauth2.service_account import Credentials
 # ----------------------------
 st.set_page_config(page_title="🎤 Lokafy Interview Assistant", page_icon="🎤")
 
+import streamlit as st
+
 # ---------- Session State Initialization ----------
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
@@ -22,8 +24,8 @@ def login(username, password):
     return username in users and users[username] == password
 
 # ---------- Clear Refresh Param if Present ----------
-if "refresh" in st.query_params():
-    st.query_params()
+if "refresh" in st.experimental_get_query_params():
+    st.experimental_set_query_params()
 
 # ---------- Login Screen ----------
 if not st.session_state.logged_in:
@@ -40,11 +42,28 @@ if not st.session_state.logged_in:
                 st.session_state.logged_in = True
                 st.session_state.username = username
                 # Add a fake query param to force rerun cleanly
-                st.query_params(refresh="true")
+                st.experimental_set_query_params(refresh="true")
                 st.stop()
             else:
                 st.error("Invalid username or password.")
     st.stop()
+
+# ---------- Main App (After Login) ----------
+st.set_page_config(page_title="Lokafy Dashboard")
+st.title(f"👋 Welcome, {st.session_state.username}!")
+st.success("You are now logged in.")
+
+# Add your app content here
+st.write("✅ This is the protected part of the app.")
+st.write("You can now view your dashboard, data, etc.")
+
+# ---------- Logout ----------
+if st.button("Logout"):
+    st.session_state.logged_in = False
+    st.session_state.username = ""
+    st.experimental_set_query_params(refresh="true")
+    st.stop()
+
 
 # ---------- Main App (After Login) ----------
 st.set_page_config(page_title="Lokafy Dashboard")
