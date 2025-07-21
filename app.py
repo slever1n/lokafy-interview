@@ -52,13 +52,13 @@ if st.button("🔍 Analyze Transcript"):
         prompt = f"""
 You're a member of a team reviewing candidates for walking tour guide roles. Based on the conversation transcript below, help us reflect on the call with {st.session_state['candidate_name']}.
 
-Please answer these in a natural, human tone — as if you're casually writing a note to your teammate. Provide Huimanized answers and avoid using em-dashes.
+Please answer these in a natural, human tone — as if you're casually writing a note to your teammate. Provide humanized answers and avoid using em-dashes.
 Do not include any intros but make sure to include the questions when answering:
 
 1. What stood out to you about {st.session_state['candidate_name']} during the call? (Mention anything interesting or memorable they shared.)
 2. Do you think they’re ready to lead a tour soon, or would it be better to wait and assign them to a future one? Give a reason why.
-3. What's {st.session_state['candidate_name']} plan for the tour? (Mention anything interesting or places that he/she has brought up during the interview)
-3. Finally, on a scale of 1 to 5, how strong is their potential to be a great Lokafyer? Add a short explanation with the rating.
+3. What's {st.session_state['candidate_name']}'s plan for the tour? (Mention anything interesting or places that he/she has brought up during the interview)
+4. Finally, on a scale of 1 to 5, how strong is their potential to be a great Lokafyer? Add a short explanation with the rating.
 
 Here’s the transcript to base your thoughts on:
 {st.session_state['transcript']}
@@ -70,8 +70,21 @@ Here’s the transcript to base your thoughts on:
         st.subheader("🧠 AI Analysis")
         st.write(response)
 
-        rating_match = re.search(r"\b([1-5])\b(?:\s*/\s*5)?", response)
-        score = rating_match.group(1) if rating_match else "N/A"
+        # Extract answers using regex
+        q1_match = re.search(r"1\..*?\n(.*?)(?=\n2\.|$)", response, re.DOTALL)
+        q2_match = re.search(r"2\..*?\n(.*?)(?=\n3\.|$)", response, re.DOTALL)
+        q3_match = re.search(r"3\..*?\n(.*?)(?=\n4\.|$)", response, re.DOTALL)
+        q4_match = re.search(r"4\..*?\n(.*)", response, re.DOTALL)
+
+        q1 = q1_match.group(1).strip() if q1_match else ""
+        q2 = q2_match.group(1).strip() if q2_match else ""
+        q3 = q3_match.group(1).strip() if q3_match else ""
+        q4_full = q4_match.group(1).strip() if q4_match else ""
+
+        # Extract score and explanation
+        score_match = re.search(r"\b([1-5])\b(?:\s*/\s*5)?", q4_full)
+        score = score_match.group(1) if score_match else "N/A"
+        explanation = q4_full.replace(score, "", 1).strip() if score != "N/A" else q4_full
 
         if st.button("📋 Copy Response to Clipboard"):
             pyperclip.copy(response)
@@ -82,8 +95,11 @@ Here’s the transcript to base your thoughts on:
             st.session_state["interviewer"],
             st.session_state["candidate_name"],
             st.session_state["transcript"],
-            response,
-            score
+            q1,
+            q2,
+            q3,
+            score,
+            explanation
         ])
         st.success("✅ Saved to Google Sheets!")
 
