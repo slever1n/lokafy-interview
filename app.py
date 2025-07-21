@@ -143,10 +143,7 @@ def logout():
     st.session_state.password_input = ""
     st.rerun()
 
-
-topbar = st.columns([1, 6, 1])
-with topbar[0]:
-    if st.button("Logout"):
+if st.button("Logout"):
         logout()
 
 st.markdown("<div style='position: fixed; bottom: 10px; left: 10px; font-size: 12px; color: #c7c6c6;'>A little tool made with ❤️ by: Yul</div>", unsafe_allow_html=True)
