@@ -26,14 +26,6 @@ def clear_all_fields():
     st.session_state["transcript"] = ""
 
 # ----------------------------
-# Session State Defaults
-# ----------------------------
-for key in ["interviewer", "candidate_name", "transcript"]:
-    if key not in st.session_state:
-        st.session_state[key] = ""
-
-
-# ----------------------------
 # UI
 # ----------------------------
 st.title("🎤 Lokafy Interview Assistant")
