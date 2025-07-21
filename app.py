@@ -21,23 +21,19 @@ client = gspread.authorize(gsheet_creds)
 sheet = client.open("Lokafy Interview Sheet").sheet1
 
 # ----------------------------
-# Session State Defaults and Clear Handler
+# Session State and Clear Handler
 # ----------------------------
-if "interviewer" not in st.session_state:
-    st.session_state["interviewer"] = ""
-if "candidate_name" not in st.session_state:
-    st.session_state["candidate_name"] = ""
-if "transcript" not in st.session_state:
-    st.session_state["transcript"] = ""
-if "clear_triggered" not in st.session_state:
-    st.session_state["clear_triggered"] = False
+clear_trigger_key = "clear_triggered"
 
-# Handle clear
-if st.session_state["clear_triggered"]:
+if clear_trigger_key not in st.session_state:
+    st.session_state[clear_trigger_key] = False
+
+if st.session_state[clear_trigger_key]:
     st.session_state["interviewer"] = ""
     st.session_state["candidate_name"] = ""
     st.session_state["transcript"] = ""
-    st.session_state["clear_triggered"] = False
+    st.session_state[clear_trigger_key] = False
+    st.rerun()  # Safely rerun AFTER state change
 
 # ----------------------------
 # UI
@@ -55,7 +51,7 @@ st.session_state["transcript"] = st.text_area(
 )
 
 if st.button("🧹 Clear All Fields"):
-    st.session_state["clear_triggered"] = True
+    st.session_state[clear_trigger_key] = True
 
 # ----------------------------
 # Analyze Button & Logic
