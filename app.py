@@ -81,25 +81,3 @@ if st.button("🔍 Analyze Transcript"):
         ])
         st.success("✅ Saved to Google Sheets!")
         st.markdown("📄 [View Interview Sheet on Google Sheets](https://docs.google.com/spreadsheets/d/1bHODbSJmSZpl3iXPovuUDVTFrWph5xwP426OOHvWr08/edit?usp=sharing)")
-
-
-
-# Clear all fields button
-if "should_rerun" not in st.session_state:
-    st.session_state.should_rerun = False
-
-# Clear function that sets a rerun flag
-def clear_fields():
-    for key in ["interviewer", "candidate_name", "transcript"]:
-        if key in st.session_state:
-            del st.session_state[key]
-    st.session_state.should_rerun = True
-
-# Clear button
-if st.button("🧹 Clear All Fields"):
-    clear_fields()
-
-# Trigger rerun if flagged
-if st.session_state.should_rerun:
-    st.session_state.should_rerun = False
-    st.experimental_rerun()
