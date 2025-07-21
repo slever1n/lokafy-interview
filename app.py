@@ -31,11 +31,10 @@ st.text_input("👤 Interviewer's Name", key="interviewer")
 st.text_input("🧍 Candidate's Name", key="candidate_name")
 st.text_area("📝 Paste the call transcript", key="transcript")
 
-col1, col2 = st.columns([5, 1])
+col1, col2 = st.columns([5, 1])  # Adjust ratios to move button further right
 
 with col2:
-    st.caption("Clear")
-    st.button("🧹", on_click=clear_all_fields)
+    st.button("🧹", help="Clear all fields", on_click=clear_all_fields)
 
 # ----------------------------
 # Analyze Button & Logic
