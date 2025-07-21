@@ -15,6 +15,14 @@ st.set_page_config(
 # ----------------------------
 # Login Handling
 # ----------------------------
+
+def logout():
+    st.session_state.authenticated = False
+    st.session_state.username = ""
+    st.session_state.username_input = ""
+    st.session_state.password_input = ""
+    st.rerun()
+
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
@@ -26,8 +34,8 @@ def check_login():
         st.session_state.authenticated = True
         topbar = st.columns([1, 6, 1])
         with topbar[0]:
-            if st.button("🚪 Logout"):
-                st.rerun()
+            if st.button("Logout"):
+            logout()
     else:
         st.error("Invalid username or password")
 
