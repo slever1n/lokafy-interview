@@ -75,7 +75,7 @@ with col1:
     st.button("🧹 Clear", on_click=clear_all_fields)
 
 with col3:
-    analyze_clicked = st.button("🔍 Analyze")
+    analyze_clicked = st.button("🔍 Analyze Transcript")
 
 # ----------------------------
 # Analyze Button & Logic
@@ -143,7 +143,7 @@ def logout():
     st.session_state.password_input = ""
     st.rerun()
 
-if st.button("Logout"):
+if st.button("❌ Logout"):
         logout()
 
 st.markdown("<div style='position: fixed; bottom: 10px; left: 10px; font-size: 12px; color: #c7c6c6;'>A little tool made with ❤️ by: Yul</div>", unsafe_allow_html=True)
