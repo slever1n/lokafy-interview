@@ -5,6 +5,12 @@ import re
 import pyperclip
 from google.oauth2.service_account import Credentials
 
+
+st.set_page_config(
+    page_title="Lokafy Interview Assistant",
+    page_icon="🎤",
+    layout="centered",
+
 # ----------------------------
 # Login Handling
 # ----------------------------
