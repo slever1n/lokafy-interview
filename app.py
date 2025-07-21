@@ -71,10 +71,10 @@ Here’s the transcript to base your thoughts on:
         st.write(response)
 
         # Extract answers using regex
-        q1_match = re.search(r"1\..*?\n(.*?)(?=\n2\.)", response, re.DOTALL)
-        q2_match = re.search(r"2\..*?\n(.*?)(?=\n3\.)", response, re.DOTALL)
-        q3_match = re.search(r"3\..*?\n(.*?)(?=\n4\.)", response, re.DOTALL)
-        q4_match = re.search(r"4\..*?\n(.*)", response, re.DOTALL)
+        q1_match = re.search(r"\*?\*?1\..*?\*?\*?\s*(.*?)(?=\*?\*?2\.)", response, re.DOTALL)
+        q2_match = re.search(r"\*?\*?2\..*?\*?\*?\s*(.*?)(?=\*?\*?3\.)", response, re.DOTALL)
+        q3_match = re.search(r"\*?\*?3\..*?\*?\*?\s*(.*?)(?=\*?\*?4\.)", response, re.DOTALL)
+        q4_match = re.search(r"\*?\*?4\..*?\*?\*?\s*(.*)", response, re.DOTALL)
 
         q1 = q1_match.group(1).strip() if q1_match else ""
         q2 = q2_match.group(1).strip() if q2_match else ""
