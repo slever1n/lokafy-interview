@@ -51,7 +51,8 @@ st.sidebar.success(f"Logged in as: {st.session_state.username}")
 if st.sidebar.button("Logout"):
     st.session_state.logged_in = False
     st.session_state.username = ""
-    st.experimental_rerun()
+    st.success("Logged out.")
+    st.stop()
 
 # ----------------------------
 # Gemini & Google Sheets Setup
