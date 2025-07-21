@@ -119,10 +119,10 @@ Here’s the transcript to base your thoughts on:
         st.markdown("📄 [View Interview Sheet on Google Sheets](https://docs.google.com/spreadsheets/d/1bHODbSJmSZpl3iXPovuUDVTFrWph5xwP426OOHvWr08/edit?usp=sharing)")
 
 
-if st.button("🧹 Clear All Fields"):
-    for key in ["interviewer", "candidate_name", "transcript"]:
-        st.session_state[key] = ""
-    st.success("✅ All fields cleared!")
-    st.experimental_rerun()
+if st.button("🧹 Clear Text Inputs"):
+    st.session_state["interviewer"] = ""
+    st.session_state["candidate_name"] = ""
+    st.session_state["transcript"] = ""
+    st.success("✅ Text inputs cleared!")
 
 st.markdown("<div style='position: fixed; bottom: 10px; left: 10px; font-size: 12px; color: #c7c6c6; '>A little tool made with ❤️ by: Yul</div>", unsafe_allow_html=True)
