@@ -24,6 +24,14 @@ def check_login():
     password = st.session_state.get("password_input")
     if username in users and users[username] == password:
         st.session_state.authenticated = True
+        topbar = st.columns([1, 6, 1])
+        with topbar[0]:
+            if st.button("🚪 Logout"):
+                st.session_state.authenticated = False
+                st.session_state.username = ""
+                st.session_state.username_input = ""
+                st.session_state.password_input = ""
+                st.rerun()
     else:
         st.error("Invalid username or password")
 
@@ -34,14 +42,7 @@ if not st.session_state.authenticated:
     st.button("Login", on_click=check_login)
     st.stop()
 
-    topbar = st.columns([1, 6, 1])
-    with topbar[0]:
-        if st.button("🚪 Logout"):
-            st.session_state.authenticated = False
-            st.session_state.username = ""
-            st.session_state.username_input = ""
-            st.session_state.password_input = ""
-            st.rerun()
+
 
 # ----------------------------
 # API Keys and setup
