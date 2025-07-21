@@ -6,6 +6,11 @@ import pyperclip
 from google.oauth2.service_account import Credentials
 
 # ----------------------------
+# Page Configuration
+# ----------------------------
+st.set_page_config(page_title="🎤 Lokafy Interview Assistant", page_icon="🎤")
+
+# ----------------------------
 # Login Setup Using Secrets
 # ----------------------------
 def login(username, password):
@@ -18,8 +23,8 @@ if "logged_in" not in st.session_state:
 if "username" not in st.session_state:
     st.session_state.username = ""
 
+# Show login screen first
 if not st.session_state.logged_in:
-    st.set_page_config(page_title="Login | Lokafy Interview Assistant")
     st.title("🔐 Lokafy Interview Assistant Login")
     
     with st.form("login_form"):
@@ -35,13 +40,11 @@ if not st.session_state.logged_in:
                 st.experimental_rerun()
             else:
                 st.error("Invalid username or password.")
-    st.stop()
+    st.stop()  # Stop app here until logged in
 
 # ----------------------------
 # App Begins After Login
 # ----------------------------
-
-st.set_page_config(page_title="🎤 Lokafy Interview Assistant", page_icon="🎤")
 
 # Sidebar logout
 st.sidebar.success(f"Logged in as: {st.session_state.username}")
