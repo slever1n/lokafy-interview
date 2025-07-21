@@ -10,8 +10,6 @@ from google.oauth2.service_account import Credentials
 # ----------------------------
 st.set_page_config(page_title="🎤 Lokafy Interview Assistant", page_icon="🎤")
 
-import streamlit as st
-
 # ---------- Session State Initialization ----------
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
