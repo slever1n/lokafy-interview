@@ -21,11 +21,11 @@ def login(username, password):
     users = st.secrets["users"]
     return username in users and users[username] == password
 
-# ---------- Clear Refresh Param if Present ----------
+# ---------- Clear refresh param if present ----------
 if "refresh" in st.query_params:
     st.query_params.clear()
 
-# ---------- Login Screen ----------
+# ---------- Login Page ----------
 if not st.session_state.logged_in:
     st.set_page_config(page_title="Login | Lokafy App")
     st.title("🔐 Lokafy Login")
@@ -33,30 +33,29 @@ if not st.session_state.logged_in:
     with st.form("login_form"):
         username = st.text_input("Username")
         password = st.text_input("Password", type="password")
-        submitted = st.form_submit_button("Login")
+        submitted = st.form_submit_button("Login", type="primary")
 
         if submitted:
             if login(username, password):
                 st.session_state.logged_in = True
                 st.session_state.username = username
-                # Add a query param to force clean rerun
                 st.query_params.update(refresh="true")
                 st.stop()
             else:
                 st.error("Invalid username or password.")
     st.stop()
 
-# ---------- Main App (After Login) ----------
+# ---------- Main App ----------
 st.set_page_config(page_title="Lokafy Dashboard")
 st.title(f"👋 Welcome, {st.session_state.username}!")
 st.success("You are now logged in.")
 
-# App content goes here
-st.write("✅ This is the protected part of the app.")
-st.write("You can now view your dashboard, data, etc.")
+# Protected content here
+st.write("✅ This is the protected area of the app.")
+st.write("You can now view tour requests, onboard Lokafyers, etc.")
 
-# ---------- Logout ----------
-if st.button("Logout"):
+# ---------- Logout Button ----------
+if st.button("Logout", key="logout_btn"):
     st.session_state.logged_in = False
     st.session_state.username = ""
     st.query_params.update(refresh="true")
