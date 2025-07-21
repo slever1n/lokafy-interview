@@ -26,11 +26,19 @@ def clear_all_fields():
     st.session_state.transcript = ""
     st.session_state.confirm_clear = False  # Uncheck the box
 
+
+st.title("🎤 Lokafy Interview Assistant")
+
+st.text_input("👤 Interviewer's Name", key="interviewer")
+st.text_input("🧍 Candidate's Name", key="candidate_name")
+st.text_area("📝 Paste the call transcript", key="transcript")
+
 # Add checkbox with session key
 st.checkbox("✔️ I confirm I want to clear all fields", key="confirm_clear")
 
 if st.button("🧹 Clear All Fields", disabled=not st.session_state.confirm_clear):
     clear_all_fields()
+
 
 
 # ----------------------------
