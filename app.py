@@ -14,6 +14,8 @@ genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
 gsheet_creds = Credentials.from_service_account_info(st.secrets["gsheets"], scopes=scope)
 client = gspread.authorize(gsheet_creds)
+spreadsheet_list = client.openall()
+st.write([s.title for s in spreadsheet_list])
 sheet = client.open("Lokafy Interview Sheet").sheet1  # Your sheet name here
 
 # ----------------------------
