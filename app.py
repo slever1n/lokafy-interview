@@ -79,8 +79,11 @@ if st.button("🔍 Analyze Transcript"):
 
 
 # Clear all fields button
-if st.button("🧹 Clear All Fields"):
+def clear_fields():
     for key in ["interviewer", "candidate_name", "transcript"]:
         if key in st.session_state:
             del st.session_state[key]
     st.experimental_rerun()
+
+if st.button("🧹 Clear All Fields"):
+    clear_fields()
