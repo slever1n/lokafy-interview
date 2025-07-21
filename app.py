@@ -81,7 +81,7 @@ Here’s the transcript to base your thoughts on:
         q3 = q3_match.group(1).strip() if q3_match else ""
         q4_full = q4_match.group(1).strip() if q4_match else ""
 
-        score_match = re.search(r"\b([1-5])\b(?:\s*/\s*5)?", q4_full)
+        score_match = re.search(r"(?:rated\s*)?([1-5])(?:\s*out\s*of\s*5|/5)", response, re.IGNORECASE)
         score = score_match.group(1) if score_match else "N/A"
         explanation = q4_full.replace(score, "", 1).strip() if score != "N/A" else q4_full
 
