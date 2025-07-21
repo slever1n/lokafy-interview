@@ -31,12 +31,6 @@ st.session_state["interviewer"] = st.text_input("👤 Interviewer's Name", value
 st.session_state["candidate_name"] = st.text_input("🧍 Candidate's Name", value=st.session_state["candidate_name"])
 st.session_state["transcript"] = st.text_area("📝 Paste the call transcript", value=st.session_state["transcript"])
 
-# Clear button
-if st.button("🧹 Clear All Fields", key="clear_btn"):
-    for key in ["interviewer", "candidate_name", "transcript"]:
-        st.session_state[key] = ""
-    st.experimental_rerun()
-
 # Analyze
 if st.button("🔍 Analyze Transcript"):
     if not st.session_state["interviewer"] or not st.session_state["candidate_name"] or not st.session_state["transcript"]:
