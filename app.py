@@ -5,7 +5,6 @@ import re
 import pyperclip
 from google.oauth2.service_account import Credentials
 
-
 st.set_page_config(
     page_title="Lokafy Interview Assistant",
     page_icon="🎤",
@@ -27,12 +26,26 @@ def check_login():
     else:
         st.error("Invalid username or password")
 
+def logout():
+    for key in list(st.session_state.keys()):
+        del st.session_state[key]
+    st.experimental_rerun()
+
 if not st.session_state.authenticated:
     st.title("🔐 Login")
     st.text_input("Username", key="username_input")
     st.text_input("Password", type="password", key="password_input")
     st.button("Login", on_click=check_login)
     st.stop()
+
+# ----------------------------
+# Logout Button
+# ----------------------------
+with st.container():
+    col_logout, _ = st.columns([1, 5])
+    with col_logout:
+        if st.button("🚪 Logout"):
+            logout()
 
 # ----------------------------
 # API Keys and setup
