@@ -10,6 +10,7 @@ st.set_page_config(
     page_title="Lokafy Interview Assistant",
     page_icon="🎤",
     layout="centered",
+)
 
 # ----------------------------
 # Login Handling
