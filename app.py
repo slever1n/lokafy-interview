@@ -31,15 +31,18 @@ st.text_input("👤 Interviewer's Name", key="interviewer")
 st.text_input("🧍 Candidate's Name", key="candidate_name")
 st.text_area("📝 Paste the call transcript", key="transcript")
 
-col1, col2 = st.columns([5, 1])  # Adjust ratios to move button further right
+col1, col2 = st.columns([1, 4])  # Adjust width ratio as you like
+
+with col1:
+    st.button("🧹 Clear All Fields", on_click=clear_all_fields)
 
 with col2:
-    st.button("🧹", help="Clear all fields", on_click=clear_all_fields)
+    analyze_clicked = st.button("🔍 Analyze Transcript")
 
 # ----------------------------
 # Analyze Button & Logic
 # ----------------------------
-if st.button("🔍 Analyze Transcript"):
+if analyze_clicked:
     if not st.session_state["interviewer"] or not st.session_state["candidate_name"] or not st.session_state["transcript"]:
         st.warning("Please fill in all fields.")
     else:
