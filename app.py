@@ -35,7 +35,7 @@ def check_login():
         topbar = st.columns([1, 6, 1])
         with topbar[0]:
             if st.button("Logout"):
-            logout()
+                logout()
     else:
         st.error("Invalid username or password")
 
