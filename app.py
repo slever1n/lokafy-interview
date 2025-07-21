@@ -17,7 +17,7 @@ sheet = client.open("Lokafy Interview Sheet").sheet1
 # ----------------------------
 # Session State Defaults
 # ----------------------------
-for key in ["interviewer", "candidate_name", "transcript", "should_rerun"]:
+for key in ["interviewer", "candidate_name", "transcript"]:
     if key not in st.session_state:
         st.session_state[key] = ""
 
@@ -26,16 +26,16 @@ for key in ["interviewer", "candidate_name", "transcript", "should_rerun"]:
 # ----------------------------
 st.title("🎤 Lokafy Interview Assistant")
 
-st.session_state["interviewer"] = st.text_input("👤 Interviewer's Name", value=st.session_state.get("interviewer", ""))
-st.session_state["candidate_name"] = st.text_input("🧍 Candidate's Name", value=st.session_state.get("candidate_name", ""))
-st.session_state["transcript"] = st.text_area("📝 Paste the call transcript", value=st.session_state.get("transcript", ""))
+# Input fields
+st.session_state["interviewer"] = st.text_input("👤 Interviewer's Name", value=st.session_state["interviewer"])
+st.session_state["candidate_name"] = st.text_input("🧍 Candidate's Name", value=st.session_state["candidate_name"])
+st.session_state["transcript"] = st.text_area("📝 Paste the call transcript", value=st.session_state["transcript"])
 
 # Clear button
-if st.button("🧹 Clear All Fields"):
-    st.session_state["interviewer"] = ""
-    st.session_state["candidate_name"] = ""
-    st.session_state["transcript"] = ""
-    st.session_state["should_rerun"] = True
+if st.button("🧹 Clear All Fields", key="clear_btn"):
+    for key in ["interviewer", "candidate_name", "transcript"]:
+        st.session_state[key] = ""
+    st.experimental_rerun()
 
 # Analyze
 if st.button("🔍 Analyze Transcript"):
@@ -67,6 +67,7 @@ if st.button("🔍 Analyze Transcript"):
             pyperclip.copy(response)
             st.success("Response copied!")
 
+        # Save to sheet
         sheet.append_row([
             st.session_state["interviewer"],
             st.session_state["candidate_name"],
@@ -75,10 +76,6 @@ if st.button("🔍 Analyze Transcript"):
             score
         ])
         st.success("✅ Saved to Google Sheets!")
+
+        # Link to the sheet
         st.markdown("📄 [View Interview Sheet on Google Sheets](https://docs.google.com/spreadsheets/d/1bHODbSJmSZpl3iXPovuUDVTFrWph5xwP426OOHvWr08/edit?usp=sharing)")
-
-
-# Handle rerun flag AFTER all Streamlit widgets have rendered
-if st.session_state.get("should_rerun"):
-    st.session_state["should_rerun"] = False
-    st.experimental_rerun()
