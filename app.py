@@ -48,7 +48,6 @@ prompt = f"""
     Here’s the transcript to base your thoughts on:
     {st.session_state['transcript']}
 """
-        """
 
         with st.spinner("Analyzing transcript..."):
             response = genai.GenerativeModel("gemini-2.5-pro").generate_content(prompt).text
