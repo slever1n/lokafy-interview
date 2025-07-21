@@ -31,9 +31,7 @@ st.text_input("👤 Interviewer's Name", key="interviewer")
 st.text_input("🧍 Candidate's Name", key="candidate_name")
 st.text_area("📝 Paste the call transcript", key="transcript")
 
-col1, col4 = st.columns([1, 4])  # Adjust width ratio as you like
-
-col1, col2, col3 = st.columns([1, 3, 1])  # Adjust the ratio as needed
+col1, col2, col3 = st.columns([1, 5, 1])  # adjust spacing if needed
 
 with col1:
     st.button("🧹 Clear All Fields", on_click=clear_all_fields)
