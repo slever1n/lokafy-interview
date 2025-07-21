@@ -33,10 +33,12 @@ st.text_area("📝 Paste the call transcript", key="transcript")
 
 col1, col4 = st.columns([1, 4])  # Adjust width ratio as you like
 
-with col1:
-    st.button("🧹 Clear", on_click=clear_all_fields)
+col1, col2, col3 = st.columns([1, 3, 1])  # Adjust the ratio as needed
 
-with col4:
+with col1:
+    st.button("🧹 Clear All Fields", on_click=clear_all_fields)
+
+with col3:
     analyze_clicked = st.button("🔍 Analyze Transcript")
 
 # ----------------------------
