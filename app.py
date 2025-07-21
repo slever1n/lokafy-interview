@@ -20,18 +20,17 @@ gsheet_creds = Credentials.from_service_account_info(
 client = gspread.authorize(gsheet_creds)
 sheet = client.open("Lokafy Interview Sheet").sheet1
 
+def clear_all_fields():
+    st.session_state["interviewer"] = ""
+    st.session_state["candidate_name"] = ""
+    st.session_state["transcript"] = ""
+
 # ----------------------------
 # Session State Defaults
 # ----------------------------
 for key in ["interviewer", "candidate_name", "transcript"]:
     if key not in st.session_state:
         st.session_state[key] = ""
-
-def clear_all_fields():
-    st.session_state["interviewer"] = ""
-    st.session_state["candidate_name"] = ""
-    st.session_state["transcript"] = ""
-
 
 
 # ----------------------------
