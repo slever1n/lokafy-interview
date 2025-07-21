@@ -52,7 +52,8 @@ if st.button("🔍 Analyze Transcript"):
         prompt = f"""
 You're a member of a team reviewing candidates for walking tour guide roles. Based on the conversation transcript below, help us reflect on the call with {st.session_state['candidate_name']}.
 
-Please answer these in a natural, human tone — as if you're casually writing a note to your teammate. Provide Huimanized answers and avoid using em-dashes: 
+Please answer these in a natural, human tone — as if you're casually writing a note to your teammate. Provide Huimanized answers and avoid using em-dashes.
+Do not include any intros but make sure to include the questions when answering:
 
 1. What stood out to you about {st.session_state['candidate_name']} during the call? (Mention anything interesting or memorable they shared.)
 2. Do you think they’re ready to lead a tour soon, or would it be better to wait and assign them to a future one? Give a reason why.
