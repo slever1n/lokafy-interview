@@ -7,7 +7,7 @@ import pyperclip
 # ----------------------------
 # Gemini API Key
 # ----------------------------
-genai.configure(api_key="YOUR_GEMINI_API_KEY")
+gemini_api_key = st.secrets.get("GEMINI_API_KEY")
 model = genai.GenerativeModel("gemini-pro")
 
 # ----------------------------
