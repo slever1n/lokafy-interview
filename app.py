@@ -29,16 +29,6 @@ for key in ["interviewer", "candidate_name", "transcript"]:
 
 
 # ----------------------------
-# Clear All Button Logic
-# ----------------------------
-if st.button("🧹 Clear All Fields"):
-    st.session_state["interviewer"] = ""
-    st.session_state["candidate_name"] = ""
-    st.session_state["transcript"] = ""
-    st.experimental_rerun()
-
-
-# ----------------------------
 # UI
 # ----------------------------
 st.title("🎤 Lokafy Interview Assistant")
@@ -52,6 +42,16 @@ st.session_state["candidate_name"] = st.text_input(
 st.session_state["transcript"] = st.text_area(
     "📝 Paste the call transcript", value=st.session_state.get("transcript", "")
 )
+
+
+# ----------------------------
+# Clear All Button Logic
+# ----------------------------
+if st.button("🧹 Clear All Fields"):
+    st.session_state["interviewer"] = ""
+    st.session_state["candidate_name"] = ""
+    st.session_state["transcript"] = ""
+
 
 # ----------------------------
 # Analyze Button & Logic
