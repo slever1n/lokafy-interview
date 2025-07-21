@@ -42,7 +42,7 @@ if st.button("🔍 Analyze Transcript"):
         """
 
         with st.spinner("Analyzing transcript with Gemini..."):
-            response = genai.GenerativeModel("gemini-pro").generate_content(prompt).text
+            response = genai.GenerativeModel("gemini-2.5-pro").generate_content(prompt).text
 
         st.subheader("🧠 Gemini's Response")
         st.write(response)
