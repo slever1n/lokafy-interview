@@ -27,10 +27,6 @@ def check_login():
         topbar = st.columns([1, 6, 1])
         with topbar[0]:
             if st.button("🚪 Logout"):
-                st.session_state.authenticated = False
-                st.session_state.username = ""
-                st.session_state.username_input = ""
-                st.session_state.password_input = ""
                 st.rerun()
     else:
         st.error("Invalid username or password")
