@@ -36,22 +36,24 @@ if st.button("🔍 Analyze Transcript"):
     if not st.session_state["interviewer"] or not st.session_state["candidate_name"] or not st.session_state["transcript"]:
         st.warning("Please fill in all fields.")
     else:
-        prompt = f"""
-        You are helping a team assess candidates for walking tour guide roles.
-        Based on the transcript below, answer the following about {st.session_state['candidate_name']}:
+prompt = f"""
+You're a member of a team reviewing candidates for walking tour guide roles. Based on the conversation transcript below, help us reflect on the call with {st.session_state['candidate_name']}.
 
-        1. What did you learn about {st.session_state['candidate_name']} during the call?
-        2. Should we select {st.session_state['candidate_name']} for the tour, or assign them for a future tour? Why?
-        3. Rate {st.session_state['candidate_name']}'s potential for being a great Lokafyer on a scale of 1 to 5 and explain briefly.
+Please answer these in a natural, human tone — as if you're casually writing a note to your teammate:
 
-        Transcript:
-        {st.session_state['transcript']}
+1. What stood out to you about {st.session_state['candidate_name']} during the call? (Mention anything interesting or memorable they shared.)
+2. Do you think they’re ready to lead a tour soon, or would it be better to wait and assign them to a future one? Give a quick reason why.
+3. Finally, on a scale of 1 to 5, how strong is their potential to be a great Lokafyer? Add a short explanation with the rating.
+
+Here’s the transcript to base your thoughts on:
+{st.session_state['transcript']}
+"""
         """
 
-        with st.spinner("Analyzing transcript with Gemini..."):
+        with st.spinner("Analyzing transcript..."):
             response = genai.GenerativeModel("gemini-2.5-pro").generate_content(prompt).text
 
-        st.subheader("🧠 Gemini's Response")
+        st.subheader("🧠 AI Analysis")
         st.write(response)
 
         rating_match = re.search(r"\b([1-5])\b(?:\s*/\s*5)?", response)
