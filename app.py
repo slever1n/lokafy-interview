@@ -30,9 +30,9 @@ if "transcript" not in st.session_state:
     st.session_state.transcript = ""
 
 # Input fields
-st.session_state.interviewer = st.text_input("👤 Interviewer's Name", value=st.session_state.interviewer)
-st.session_state.candidate_name = st.text_input("🧍 Candidate's Name", value=st.session_state.candidate_name)
-st.session_state.transcript = st.text_area("📝 Paste the call transcript", value=st.session_state.transcript)
+interviewer = st.text_input("👤 Interviewer's Name", value=st.session_state.interviewer, key="interviewer")
+candidate_name = st.text_input("🧍 Candidate's Name", value=st.session_state.candidate_name, key="candidate_name")
+transcript = st.text_area("📝 Paste the call transcript", value=st.session_state.transcript, key="transcript")
 
 # Analyze button
 if st.button("🔍 Analyze Transcript"):
@@ -80,7 +80,7 @@ if st.button("🔍 Analyze Transcript"):
 
 # Clear all fields button
 if st.button("🧹 Clear All Fields"):
-    st.session_state.interviewer = ""
-    st.session_state.candidate_name = ""
-    st.session_state.transcript = ""
+    st.session_state["interviewer"] = ""
+    st.session_state["candidate_name"] = ""
+    st.session_state["transcript"] = ""
     st.experimental_rerun()
