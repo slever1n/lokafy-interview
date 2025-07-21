@@ -14,7 +14,7 @@ genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
 gsheet_creds = Credentials.from_service_account_info(st.secrets["gsheets"], scopes=scope)
 client = gspread.authorize(gsheet_creds)
-sheet = client.open("Tour Interview Results").sheet1  # Your sheet name here
+sheet = client.open("Lokafy Interview Sheet").sheet1  # Your sheet name here
 
 # ----------------------------
 # Streamlit UI
