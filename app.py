@@ -55,7 +55,8 @@ You're a member of a team reviewing candidates for walking tour guide roles. Bas
 Please answer these in a natural, human tone — as if you're casually writing a note to your teammate:
 
 1. What stood out to you about {st.session_state['candidate_name']} during the call? (Mention anything interesting or memorable they shared.)
-2. Do you think they’re ready to lead a tour soon, or would it be better to wait and assign them to a future one? Give a quick reason why.
+2. Do you think they’re ready to lead a tour soon, or would it be better to wait and assign them to a future one? Give a reason why.
+3. What's {st.session_state['candidate_name']} plan for the tour? (Mention anything interesting or places that he/she has brought up during the interview)
 3. Finally, on a scale of 1 to 5, how strong is their potential to be a great Lokafyer? Add a short explanation with the rating.
 
 Here’s the transcript to base your thoughts on:
