@@ -104,3 +104,12 @@ Here’s the transcript to base your thoughts on:
             q2,
             q3,
             q4
+        ])
+        st.success("✅ Saved to Google Sheets!")
+
+        if st.button("📋 Copy Response to Clipboard"):
+            pyperclip.copy(full_response)
+            st.success("Response copied!")
+
+        # Sheet link
+        st.markdown("📄 [View Interview Sheet on Google Sheets](https://docs.google.com/spreadsheets/d/1bHODbSJmSZpl3iXPovuUDVTFrWph5xwP426OOHvWr08/edit?usp=sharing)")
