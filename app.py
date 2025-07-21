@@ -138,14 +138,5 @@ Here’s the transcript to base your thoughts on:
 
         st.markdown("📄 [View Interview Sheet on Google Sheets](https://docs.google.com/spreadsheets/d/1bHODbSJmSZpl3iXPovuUDVTFrWph5xwP426OOHvWr08/edit?usp=sharing)")
 
-def logout():
-    st.session_state.authenticated = False
-    st.session_state.username = ""
-    st.session_state.username_input = ""
-    st.session_state.password_input = ""
-    st.rerun()
-
-if st.button("Logout"):
-    logout()
 
 st.markdown("<div style='position: fixed; bottom: 10px; left: 10px; font-size: 12px; color: #c7c6c6;'>A little tool made with ❤️ by: Yul</div>", unsafe_allow_html=True)
