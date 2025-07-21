@@ -37,11 +37,6 @@ if st.button("🧹 Clear All Fields"):
     st.session_state["transcript"] = ""
     st.session_state["should_rerun"] = True
 
-# Handle rerun flag AFTER all Streamlit widgets have rendered
-if st.session_state.get("should_rerun"):
-    st.session_state["should_rerun"] = False
-    st.experimental_rerun()
-
 # Analyze
 if st.button("🔍 Analyze Transcript"):
     if not st.session_state["interviewer"] or not st.session_state["candidate_name"] or not st.session_state["transcript"]:
@@ -81,3 +76,9 @@ if st.button("🔍 Analyze Transcript"):
         ])
         st.success("✅ Saved to Google Sheets!")
         st.markdown("📄 [View Interview Sheet on Google Sheets](https://docs.google.com/spreadsheets/d/1bHODbSJmSZpl3iXPovuUDVTFrWph5xwP426OOHvWr08/edit?usp=sharing)")
+
+
+# Handle rerun flag AFTER all Streamlit widgets have rendered
+if st.session_state.get("should_rerun"):
+    st.session_state["should_rerun"] = False
+    st.experimental_rerun()
