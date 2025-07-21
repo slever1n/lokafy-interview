@@ -1,9 +1,9 @@
 import streamlit as st
 import google.generativeai as genai
 import gspread
+from google.oauth2.service_account import Credentials
 import re
 import pyperclip
-from google.oauth2.service_account import Credentials
 
 # ----------------------------
 # API Keys and setup
@@ -23,24 +23,38 @@ sheet = client.open("Lokafy Interview Sheet").sheet1
 # ----------------------------
 # Session State Defaults
 # ----------------------------
-for key in ["interviewer", "candidate_name", "transcript"]:
+for key in ["interviewer", "candidate_name", "transcript", "clear_inputs"]:
     if key not in st.session_state:
         st.session_state[key] = ""
+
+if "clear_inputs" not in st.session_state:
+    st.session_state["clear_inputs"] = False
 
 # ----------------------------
 # UI
 # ----------------------------
 st.title("🎤 Lokafy Interview Assistant")
 
-st.session_state["interviewer"] = st.text_input(
-    "👤 Interviewer's Name", value=st.session_state.get("interviewer", "")
-)
-st.session_state["candidate_name"] = st.text_input(
-    "🧍 Candidate's Name", value=st.session_state.get("candidate_name", "")
-)
-st.session_state["transcript"] = st.text_area(
-    "📝 Paste the call transcript", value=st.session_state.get("transcript", "")
-)
+# Clear Text Inputs Button
+if st.button("🧹 Clear Text Inputs"):
+    st.session_state["clear_inputs"] = True
+    st.experimental_rerun()
+
+# Input fields
+interviewer = st.text_input("👤 Interviewer's Name", value=st.session_state.get("interviewer", ""))
+candidate_name = st.text_input("🧍 Candidate's Name", value=st.session_state.get("candidate_name", ""))
+transcript = st.text_area("📝 Paste the call transcript", value=st.session_state.get("transcript", ""))
+
+# Store back to session state unless clearing
+if not st.session_state["clear_inputs"]:
+    st.session_state["interviewer"] = interviewer
+    st.session_state["candidate_name"] = candidate_name
+    st.session_state["transcript"] = transcript
+else:
+    st.session_state["interviewer"] = ""
+    st.session_state["candidate_name"] = ""
+    st.session_state["transcript"] = ""
+    st.session_state["clear_inputs"] = False
 
 # ----------------------------
 # Analyze Button & Logic
@@ -65,45 +79,23 @@ Here’s the transcript to base your thoughts on:
 """
 
         with st.spinner("Analyzing transcript..."):
-            response = genai.GenerativeModel("gemini-2.5-pro").generate_content(prompt).text
+            full_response = genai.GenerativeModel("gemini-2.5-pro").generate_content(prompt).text
 
         st.subheader("🧠 AI Analysis")
-        st.write(response)
+        st.write(full_response)
 
-        # Extract answers using regex
-        q1_match = re.search(r"\*?\*?1\..*?\*?\*?\s*(.*?)(?=\*?\*?2\.)", response, re.DOTALL)
-        q2_match = re.search(r"\*?\*?2\..*?\*?\*?\s*(.*?)(?=\*?\*?3\.)", response, re.DOTALL)
-        q3_match = re.search(r"\*?\*?3\..*?\*?\*?\s*(.*?)(?=\*?\*?4\.)", response, re.DOTALL)
-        q4_match = re.search(r"\*?\*?4\..*?\*?\*?\s*(.*)", response, re.DOTALL)
+        # Extract answers per question
+        def extract_answer(question_number):
+            pattern = rf"\*\*{question_number}\..*?\*\*\s*(.*?)(?=\n\s*\*\*|$)"
+            match = re.search(pattern, full_response, re.DOTALL)
+            return match.group(1).strip() if match else ""
 
-        q1 = q1_match.group(1).strip() if q1_match else ""
-        q2 = q2_match.group(1).strip() if q2_match else ""
-        q3 = q3_match.group(1).strip() if q3_match else ""
-        q4_full = q4_match.group(1).strip() if q4_match else ""
+        q1 = extract_answer("1")
+        q2 = extract_answer("2")
+        q3 = extract_answer("3")
+        q4 = extract_answer("4")  # Full answer incl. rating and explanation
 
-        score_match = re.search(r"\b(?:give (?:him|her|them)|rate(?:d)?|I'd say|I’d give)\s+(?:a\s+)?([1-5])\b", response, re.IGNORECASE)
-        score = score_match.group(1) if score_match else "N/A"
-        explanation = q4_full.replace(score, "", 1).strip() if score != "N/A" else q4_full
-
-        # Extract score and explanation
-        score_match = re.search(r"\b([1-5])\b(?:\s*/\s*5)?", q4_full)
-        score = score_match.group(1) if score_match else "N/A"
-        explanation = q4_full.replace(score, "", 1).strip() if score != "N/A" else q4_full
-
-        if st.button("📋 Copy Response to Clipboard"):
-            pyperclip.copy(response)
-            st.success("Response copied!")
-
-        # Extract answers by splitting on numbered questions (1–4)
-        answers = re.split(r"\*\*?\s*\d\.\s.*?\*\*?", response)
-
-        # answers[0] is the intro or empty string; answers[1] to [4] are Q1–Q4
-        q1 = answers[1].strip() if len(answers) > 1 else ""
-        q2 = answers[2].strip() if len(answers) > 2 else ""
-        q3 = answers[3].strip() if len(answers) > 3 else ""
-        q4 = answers[4].strip() if len(answers) > 4 else ""
-
-        # Save to Google Sheets
+        # Save to Google Sheets (starting from column A with correct order)
         sheet.append_row([
             st.session_state["interviewer"],
             st.session_state["candidate_name"],
@@ -112,17 +104,3 @@ Here’s the transcript to base your thoughts on:
             q2,
             q3,
             q4
-        ])
-        st.success("✅ Saved to Google Sheets!")
-
-        # Link to the Google Sheet
-        st.markdown("📄 [View Interview Sheet on Google Sheets](https://docs.google.com/spreadsheets/d/1bHODbSJmSZpl3iXPovuUDVTFrWph5xwP426OOHvWr08/edit?usp=sharing)")
-
-
-if st.button("🧹 Clear Text Inputs"):
-    st.session_state["interviewer"] = ""
-    st.session_state["candidate_name"] = ""
-    st.session_state["transcript"] = ""
-    st.success("✅ Text inputs cleared!")
-
-st.markdown("<div style='position: fixed; bottom: 10px; left: 10px; font-size: 12px; color: #c7c6c6; '>A little tool made with ❤️ by: Yul</div>", unsafe_allow_html=True)
