@@ -123,5 +123,6 @@ if st.button("🧹 Clear All Fields"):
     for key in ["interviewer", "candidate_name", "transcript"]:
         st.session_state[key] = ""
     st.success("✅ All fields cleared!")
+    st.experimental_rerun()
 
 st.markdown("<div style='position: fixed; bottom: 10px; left: 10px; font-size: 12px; color: #c7c6c6; '>A little tool made with ❤️ by: Yul</div>", unsafe_allow_html=True)
