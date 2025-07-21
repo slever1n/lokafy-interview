@@ -21,24 +21,34 @@ sheet = client.open("Lokafy Interview Sheet").sheet1  # Your sheet name here
 # ----------------------------
 st.title("🎤 Lokafy Interview Assistant")
 
-interviewer = st.text_input("👤 Interviewer's Name")
-candidate_name = st.text_input("🧍 Candidate's Name")
-transcript = st.text_area("📝 Paste the call transcript")
+# Session state to manage form values
+if "interviewer" not in st.session_state:
+    st.session_state.interviewer = ""
+if "candidate_name" not in st.session_state:
+    st.session_state.candidate_name = ""
+if "transcript" not in st.session_state:
+    st.session_state.transcript = ""
 
+# Input fields
+st.session_state.interviewer = st.text_input("👤 Interviewer's Name", value=st.session_state.interviewer)
+st.session_state.candidate_name = st.text_input("🧍 Candidate's Name", value=st.session_state.candidate_name)
+st.session_state.transcript = st.text_area("📝 Paste the call transcript", value=st.session_state.transcript)
+
+# Analyze button
 if st.button("🔍 Analyze Transcript"):
-    if not interviewer or not candidate_name or not transcript:
+    if not st.session_state.interviewer or not st.session_state.candidate_name or not st.session_state.transcript:
         st.warning("Please fill in all fields.")
     else:
         prompt = f"""
         You are helping a team assess candidates for walking tour guide roles.
-        Based on the transcript below, answer the following about {candidate_name}:
+        Based on the transcript below, answer the following about {st.session_state.candidate_name}:
 
-        1. What did you learn about {candidate_name} during the call?
-        2. Should we select {candidate_name} for the tour, or assign them for a future tour? Why?
-        3. Rate {candidate_name}'s potential for being a great Lokafyer on a scale of 1 to 5 and explain briefly.
+        1. What did you learn about {st.session_state.candidate_name} during the call?
+        2. Should we select {st.session_state.candidate_name} for the tour, or assign them for a future tour? Why?
+        3. Rate {st.session_state.candidate_name}'s potential for being a great Lokafyer on a scale of 1 to 5 and explain briefly.
 
         Transcript:
-        {transcript}
+        {st.session_state.transcript}
         """
 
         with st.spinner("Analyzing transcript with Gemini..."):
@@ -57,5 +67,20 @@ if st.button("🔍 Analyze Transcript"):
             st.success("Response copied!")
 
         # Save to Google Sheets
-        sheet.append_row([interviewer, candidate_name, transcript, response, score])
+        sheet.append_row([
+            st.session_state.interviewer,
+            st.session_state.candidate_name,
+            st.session_state.transcript,
+            response,
+            score
+        ])
         st.success("✅ Saved to Google Sheets!")
+        st.markdown("📄 [View Interview Sheet on Google Sheets](https://docs.google.com/spreadsheets/d/1bHODbSJmSZpl3iXPovuUDVTFrWph5xwP426OOHvWr08/edit?usp=sharing)")
+
+
+# Clear all fields button
+if st.button("🧹 Clear All Fields"):
+    st.session_state.interviewer = ""
+    st.session_state.candidate_name = ""
+    st.session_state.transcript = ""
+    st.experimental_rerun()
