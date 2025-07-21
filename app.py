@@ -27,6 +27,17 @@ for key in ["interviewer", "candidate_name", "transcript"]:
     if key not in st.session_state:
         st.session_state[key] = ""
 
+
+# ----------------------------
+# Clear All Button Logic
+# ----------------------------
+if st.button("🧹 Clear All Fields"):
+    st.session_state["interviewer"] = ""
+    st.session_state["candidate_name"] = ""
+    st.session_state["transcript"] = ""
+    st.experimental_rerun()
+
+
 # ----------------------------
 # UI
 # ----------------------------
