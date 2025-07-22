@@ -12,7 +12,17 @@ st.set_page_config(
     layout="centered",
 )
 
-st.navigation(mode="expanded", area="main")  # ← this puts it in the top bar
+pages = {
+    "Select call type": [
+        st.Page("app.py", title="lokafy Interview Analysis"),
+        st.Page("app2.py", title="Post-tour Call Analysis"),
+        st.Page("app3.py", title="Feedback Call Analysis"),
+
+    ],
+}
+
+pg = st.navigation(pages, position="top")
+pg.run()
 
 
 # ----------------------------
