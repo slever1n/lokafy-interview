@@ -14,6 +14,7 @@ st.set_page_config(
 
 pages = {
     "Select call type": [
+        st.Page("app.py", title="Lokafy Interview Analysis"),
         st.Page("pages/app2.py", title="Post-tour Call Analysis"),
         st.Page("pages/app3.py", title="Feedback Call Analysis"),
         ],
