@@ -71,28 +71,45 @@ sheet = client.open("Lokafy Interview Sheet").sheet1
 # App UI
 # ----------------------------
 
+import streamlit as st
+
+# Initialize theme mode
+if "theme_mode" not in st.session_state:
+    st.session_state.theme_mode = "light"
+
+# Theme toggle logic
 def toggle_theme():
     st.session_state.theme_mode = (
         "dark" if st.session_state.theme_mode == "light" else "light"
     )
     st.experimental_rerun()
 
-st.markdown(
-    f"""
-    <div style='display: flex; justify-content: flex-end; margin-bottom: 1rem;'>
-        <form action="" method="post">
-            <button type="submit" style='background-color: #444444; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer;'>
-                Switch to {'Dark' if st.session_state.theme_mode == 'light' else 'Light'} Mode
-            </button>
-        </form>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+# Apply CSS based on theme
+if st.session_state.theme_mode == "dark":
+    st.markdown("""
+        <style>
+            .stApp {
+                background-color: #0e1117 !important;
+                color: white !important;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+else:
+    st.markdown("""
+        <style>
+            .stApp {
+                background-color: white !important;
+                color: black !important;
+            }
+        </style>
+    """, unsafe_allow_html=True)
 
-# Handle the toggle (you can bind it to a query param or button click too)
-if st.query_params.get("toggle_theme"):
-    toggle_theme()
+# Place toggle button at top right
+col1, col2 = st.columns([9, 1])
+with col2:
+    if st.button(f"{'🌙' if st.session_state.theme_mode == 'light' else '☀️'}"):
+        toggle_theme()
+
 
 
 st.title("🎤 Lokafy Interview Analysis")
