@@ -12,6 +12,9 @@ st.set_page_config(
     layout="centered",
 )
 
+st.navigation(mode="expanded", area="main")  # ← this puts it in the top bar
+
+
 # ----------------------------
 # Login Handling
 # ----------------------------
