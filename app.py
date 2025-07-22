@@ -20,7 +20,7 @@ pages = {
         ],
 }
 
-pg = st.navigation(pages, position="top")
+pg = st.navigation(pages)
 pg.run()
 
 
