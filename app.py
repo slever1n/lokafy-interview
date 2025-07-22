@@ -6,18 +6,31 @@ import pyperclip
 from google.oauth2.service_account import Credentials
 
 
+# Initialize theme mode if not set
+if "theme_mode" not in st.session_state:
+    st.session_state.theme_mode = "light"
+
+def clear_all_fields():
+    st.session_state.interviewer = ""
+    st.session_state.candidate_name = ""
+    st.session_state.transcript = ""
+
+def logout():
+    st.session_state.authenticated = False
+    st.session_state.username = ""
+    st.session_state.username_input = ""
+    st.session_state.password_input = ""
+    st.rerun()
+
 st.set_page_config(
     page_title="Lokafy Interview Analysis",
     page_icon="🎤",
     layout="centered",
 )
 
-
 # ----------------------------
 # Login Handling
 # ----------------------------
-
-
 
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
@@ -39,8 +52,6 @@ if not st.session_state.authenticated:
     st.button("Login", on_click=check_login)
     st.stop()
 
-
-
 # ----------------------------
 # API Keys and setup
 # ----------------------------
@@ -56,14 +67,33 @@ gsheet_creds = Credentials.from_service_account_info(
 client = gspread.authorize(gsheet_creds)
 sheet = client.open("Lokafy Interview Sheet").sheet1
 
-def clear_all_fields():
-    st.session_state.interviewer = ""
-    st.session_state.candidate_name = ""
-    st.session_state.transcript = ""
-
 # ----------------------------
 # App UI
 # ----------------------------
+
+def toggle_theme():
+    st.session_state.theme_mode = (
+        "dark" if st.session_state.theme_mode == "light" else "light"
+    )
+    st.experimental_rerun()
+
+st.markdown(
+    f"""
+    <div style='display: flex; justify-content: flex-end; margin-bottom: 1rem;'>
+        <form action="" method="post">
+            <button type="submit" style='background-color: #444444; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer;'>
+                Switch to {'Dark' if st.session_state.theme_mode == 'light' else 'Light'} Mode
+            </button>
+        </form>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# Handle the toggle (you can bind it to a query param or button click too)
+if st.query_params.get("toggle_theme"):
+    toggle_theme()
+
 
 st.title("🎤 Lokafy Interview Analysis")
 
@@ -137,14 +167,6 @@ Here’s the transcript to base your thoughts on:
         st.success("✅ Saved to Google Sheets!")
 
         st.markdown("📄 [View Interview Sheet on Google Sheets](https://docs.google.com/spreadsheets/d/1bHODbSJmSZpl3iXPovuUDVTFrWph5xwP426OOHvWr08/edit?usp=sharing)")
-
-
-def logout():
-    st.session_state.authenticated = False
-    st.session_state.username = ""
-    st.session_state.username_input = ""
-    st.session_state.password_input = ""
-    st.rerun()
 
 if st.button("❌ Logout"):
         logout()
