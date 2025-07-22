@@ -8,7 +8,7 @@ from google.oauth2.service_account import Credentials
 pages = {
     "Select Analysis": [
         st.Page("app.py", title="Lokafy Interview Analysis"),
-        st.Page("app2.py", title="Post-call tour Analysis"),
+        st.Page("pages/app2.py", title="Post-call tour Analysis"),
     ],
 }
 
