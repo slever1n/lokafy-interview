@@ -7,7 +7,7 @@ from google.oauth2.service_account import Credentials
 
 
 st.set_page_config(
-    page_title="Lokafy Interview Assistant",
+    page_title="Lokafy Post-tour Call Analysis",
     page_icon="🎤",
     layout="centered",
 )
@@ -63,8 +63,7 @@ def clear_all_fields():
 # ----------------------------
 # App UI
 # ----------------------------
-st.title("🎤 Lokafy Interview Assistant")
-st.sidebar.success("Pages")
+st.title("🎤 Lokafy Post-tour Call Analysis")
 
 st.text_input("👤 Interviewer's Name", key="interviewer")
 st.text_input("🧍 Lokafyer's Name", key="candidate_name")
