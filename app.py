@@ -78,7 +78,7 @@ with col1:
     st.button("🧹 Clear", on_click=clear_all_fields)
 
 with col3:
-    analyze_clicked = st.button("🔍 Analyze Transcript")
+    analyze_clicked = st.button("🔍 Analyze")
 
 # ----------------------------
 # Analyze Button & Logic
