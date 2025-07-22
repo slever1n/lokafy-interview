@@ -2,3 +2,4 @@ google-generativeai
 gspread
 oauth2client
 pyperclip
+streamlit-extras
