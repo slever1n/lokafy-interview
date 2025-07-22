@@ -5,11 +5,6 @@ import re
 import pyperclip
 from google.oauth2.service_account import Credentials
 
-
-# Initialize theme mode if not set
-if "theme_mode" not in st.session_state:
-    st.session_state.theme_mode = "light"
-
 def clear_all_fields():
     st.session_state.interviewer = ""
     st.session_state.candidate_name = ""
@@ -71,49 +66,7 @@ sheet = client.open("Lokafy Interview Sheet").sheet1
 # App UI
 # ----------------------------
 
-import streamlit as st
-
-# Initialize theme mode
-if "theme_mode" not in st.session_state:
-    st.session_state.theme_mode = "light"
-
-# Theme toggle logic
-def toggle_theme():
-    st.session_state.theme_mode = (
-        "dark" if st.session_state.theme_mode == "light" else "light"
-    )
-    st.experimental_rerun()
-
-# Apply CSS based on theme
-if st.session_state.theme_mode == "dark":
-    st.markdown("""
-        <style>
-            .stApp {
-                background-color: #0e1117 !important;
-                color: white !important;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-else:
-    st.markdown("""
-        <style>
-            .stApp {
-                background-color: white !important;
-                color: black !important;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-
-# Place toggle button at top right
-col1, col2 = st.columns([9, 1])
-with col2:
-    if st.button(f"{'🌙' if st.session_state.theme_mode == 'light' else '☀️'}"):
-        toggle_theme()
-
-
-
 st.title("🎤 Lokafy Interview Analysis")
-
 
 st.text_input("👤 Interviewer's Name", key="interviewer")
 st.text_input("🧍 Lokafyer's Name", key="candidate_name")
