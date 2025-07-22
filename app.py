@@ -64,6 +64,7 @@ def clear_all_fields():
 # App UI
 # ----------------------------
 st.title("🎤 Lokafy Interview Assistant")
+st.sidebar.success("Pages")
 
 st.text_input("👤 Interviewer's Name", key="interviewer")
 st.text_input("🧍 Lokafyer's Name", key="candidate_name")
