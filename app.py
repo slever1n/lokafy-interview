@@ -72,7 +72,7 @@ st.text_input("👤 Interviewer's Name", key="interviewer")
 st.text_input("🧍 Lokafyer's Name", key="candidate_name")
 st.text_area("📝 Paste the call transcript", key="transcript")
 
-col1, col2, col3 = st.columns([1, 4, 2.2])
+col1, col2, col3 = st.columns([1, 4, 1.7])
 
 with col1:
     st.button("🧹 Clear", on_click=clear_all_fields)
