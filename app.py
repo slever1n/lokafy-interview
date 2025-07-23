@@ -188,6 +188,14 @@ Transcript:
         st.subheader("🧠 AI Analysis")
         st.write(response)
 
+        answers = re.split(r"\*\*?\s*\d\.\s.*?\*\*?", response)
+
+        q1 = answers[1].strip() if len(answers) > 1 else ""
+        q2 = answers[2].strip() if len(answers) > 2 else ""
+        q3 = answers[3].strip() if len(answers) > 3 else ""
+        q4 = "".join(answers[4:]).strip() if len(answers) > 4 else ""
+
+
         q1_match = re.search(r"1\..*?\n(.*?)(?=\n2\.|\n*Do you think|\nQ2)", response, re.DOTALL | re.IGNORECASE)
         q2_match = re.search(r"2\..*?\n(.*?)(?=\n3\.|\n*What.*plan|\nQ3)", response, re.DOTALL | re.IGNORECASE)
         q3_match = re.search(r"3\..*?\n(.*?)(?=\n4\.|\n*\*\*Rubric Evaluation\*\*|\nQ4)", response, re.DOTALL | re.IGNORECASE)
