@@ -157,17 +157,6 @@ Transcript:
         with st.spinner("Analyzing transcript..."):
             response = genai.GenerativeModel("gemini-2.5-pro").generate_content(prompt).text
 
-
-                # Extract score breakdown
-        rubric_keys = [
-            "Communication Skills",
-            "Local Knowledge",
-            "Enthusiasm & Engagement",
-            "Problem-Solving Ability",
-            "Traveler Interaction",
-            "Bonus Score"
-        ]
-        
         st.subheader("🧠 AI Analysis")
         st.write(response)
 
@@ -180,19 +169,27 @@ Transcript:
         q4_raw = "".join(answers[4:]).strip() if len(answers) > 4 else ""
 
         # Build labeled breakdown
-        q4_raw = "".join(answers[4:]).strip() if len(answers) > 4 else ""
-
-        # Format labeled breakdown
         q4_breakdown = ""
         for key in rubric_keys:
+        # Search for explanation under each rubric heading
             pattern = rf"{re.escape(key)}.*?(?:\n|:)?(.*?)(?=\n{2,}|{re.escape(rubric_keys[rubric_keys.index(key)+1]) if key != rubric_keys[-1] else 'Total Score'}|$)"
             match = re.search(pattern, q4_raw, re.IGNORECASE | re.DOTALL)
             explanation = match.group(1).strip() if match else "No explanation found."
             score = score_dict.get(key, "?")
-            q4_breakdown += f"**{key}** (Score: {score}/5):\n{explanation}\n\n"
+            q4_breakdown += f"**{key}** (Score: {score}/5 if not Bonus):\n{explanation}\n\n"
 
         q4 = q4_breakdown.strip()
 
+
+        # Extract score breakdown
+        rubric_keys = [
+            "Communication Skills",
+            "Local Knowledge",
+            "Enthusiasm & Engagement",
+            "Problem-Solving Ability",
+            "Traveler Interaction",
+            "Bonus Score"
+    ]
 
         score_dict = {}
 
