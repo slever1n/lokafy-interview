@@ -190,10 +190,15 @@ Transcript:
         st.write(response)
 
 
-        def extract_section(start_marker, next_marker, text):
-            pattern = rf"{re.escape(start_marker)}(.*?)(?={re.escape(next_marker)}|\Z)"
+        def extract_section(start_marker, next_markers, text):
+            if isinstance(next_markers, str):
+                next_markers = [next_markers]
+            # Build combined pattern for all possible next markers
+            next_pattern = "|".join([re.escape(marker) for marker in next_markers])
+            pattern = rf"{re.escape(start_marker)}(.*?)(?={next_pattern}|\Z)"
             match = re.search(pattern, text, re.DOTALL)
             return match.group(1).strip() if match else ""
+
 
         # Define the marker for the start of Q4
         rubric_marker = "**Rubric Evaluation**"
@@ -208,7 +213,7 @@ Transcript:
         # Extract answers
         q1 = extract_section(q1_text, q2_text, response)
         q2 = extract_section(q2_text, q3_text, response)
-        q3 = extract_section(q3_text, rubric_marker, response)
+        q3 = extract_section(q3_text, ["**Rubric Evaluation**", "**Communication Skills**"], response)
 
         # Q4 = everything from the rubric section onward
         q4_start = response.find(rubric_marker)
