@@ -1,4 +1,4 @@
-import streamlit as st
+    import streamlit as st
 import google.generativeai as genai
 import gspread
 import re
@@ -191,15 +191,10 @@ Transcript:
         # Extract answers
         answers = re.split(r"\*\*?\s*\d\.\s.*?\*\*?", response)
 
-        q1_match = re.search(r"1\..*?\n(.*?)(?=\n2\.)", response, re.DOTALL)
-        q2_match = re.search(r"2\..*?\n(.*?)(?=\n3\.)", response, re.DOTALL)
-        q3_match = re.search(r"3\..*?\n(.*?)(?=\n\*\*Rubric Details\*\*)", response, re.DOTALL)
-        q4_match = re.search(r"\*\*Rubric Details\*\*(.*)", response, re.DOTALL)
-
-        q1 = q1_match.group(1).strip() if q1_match else ""
-        q2 = q2_match.group(1).strip() if q2_match else ""
-        q3 = q3_match.group(1).strip() if q3_match else ""
-        q4 = "**Rubric Evaluation**\n" + q4_match.group(1).strip() if q4_match else ""
+        q1 = answers[1].strip() if len(answers) > 1 else ""
+        q2 = answers[2].strip() if len(answers) > 2 else ""
+        q3 = answers[3].strip() if len(answers) > 3 else ""
+        q4 = "".join(answers[4:]).strip() if len(answers) > 4 else ""
 
         # Extract score breakdown
         rubric_keys = [
@@ -212,17 +207,15 @@ Transcript:
         ]
 
         score_dict = {}
-        explanation_dict = {}
 
         for key in rubric_keys:
-            pattern = rf"\*\*{re.escape(key)}\*\*\s*Score:\s*(\d)(?:/5)?\s*Explanation:\s*(.*?)(?=\n\*\*|$)"
-            match = re.search(pattern, response, re.DOTALL | re.IGNORECASE)
+            pattern = rf"{re.escape(key)}.*?(?:Score:)?\s*(\d)(?:\s*/\s*5)?"
+            match = re.search(pattern, response, re.IGNORECASE | re.DOTALL)
             if match:
-                score_dict[key] = match.group(1).strip()
-                explanation_dict[key] = match.group(2).strip()
+                score_dict[key] = match.group(1)
             else:
                 score_dict[key] = ""
-                explanation_dict[key] = ""
+
         total_score = sum(int(v) for v in score_dict.values() if v.isdigit())
 
         # Save to Google Sheets
@@ -232,20 +225,13 @@ Transcript:
             st.session_state["interviewer"],
             st.session_state["candidate_name"],
             st.session_state["transcript"],
-            q1, q2, q3,
-            "",  # We'll remove Q4 text since we now break it down
+            q1, q2, q3, q4,
             score_dict.get("Communication Skills", ""),
-            explanation_dict.get("Communication Skills", ""),
             score_dict.get("Local Knowledge", ""),
-            explanation_dict.get("Local Knowledge", ""),
             score_dict.get("Enthusiasm & Engagement", ""),
-            explanation_dict.get("Enthusiasm & Engagement", ""),
             score_dict.get("Problem-Solving Ability", ""),
-            explanation_dict.get("Problem-Solving Ability", ""),
             score_dict.get("Traveler Interaction", ""),
-            explanation_dict.get("Traveler Interaction", ""),
             score_dict.get("Bonus Score", ""),
-            explanation_dict.get("Bonus Score", ""),
             total_score
         ]
         sheet.append_row(row)
