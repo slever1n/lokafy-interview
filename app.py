@@ -195,14 +195,11 @@ Transcript:
             match = re.search(pattern, text, re.DOTALL)
             return match.group(1).strip() if match else ""
 
-        # Define the marker for the start of Q4
-        rubric_marker = "**Rubric Evaluation**"
-
         # Define question texts using the candidate's name from session
         q1_text = "**Q1."
         q2_text = "**Q2."
         q3_text = "**Q3."
-        rubric_marker = "**Rubric Evaluation**"
+        rubric_marker = "**Communication Skills"
 
 
         # Extract answers
