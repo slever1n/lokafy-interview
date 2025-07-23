@@ -169,8 +169,24 @@ Transcript:
         q4 = "".join(answers[4:]).strip() if len(answers) > 4 else ""
 
         # Extract score breakdown
-        scores = re.findall(r"\*\*(.*?)\*\*:.*?(?:\bscore\b|\brating\b)?[^\d]*(\d)(?:/5)?", response, re.IGNORECASE)
-        score_dict = {k.strip(): v.strip() for k, v in scores}
+        rubric_keys = [
+            "Communication Skills",
+            "Local Knowledge",
+            "Enthusiasm & Engagement",
+            "Problem-Solving Ability",
+            "Traveler Interaction",
+            "Bonus Score"
+    ]
+
+        score_dict = {}
+
+        for key in rubric_keys:
+            match = re.search(rf"{re.escape(key)}.*?(\d)(?:/5)?", response, re.IGNORECASE)
+            if match:
+                score_dict[key] = match.group(1)
+            else:
+                score_dict[key] = ""
+
         total_score = sum(int(v) for v in score_dict.values() if v.isdigit())
 
         # Save to Google Sheets
