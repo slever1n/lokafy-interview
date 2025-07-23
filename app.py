@@ -199,9 +199,10 @@ Transcript:
         rubric_marker = "**Rubric Evaluation**"
 
         # Define question texts using the candidate's name from session
-        q1_text = f"1. What stood out to you about {st.session_state['candidate_name']} during the call?"
-        q2_text = "2. Do you think they’re ready to lead a tour soon, or would it be better to wait and assign them to a future one?"
-        q3_text = f"3. What's {st.session_state['candidate_name']}'s plan for the tour?"
+        q1_text = f"1. What did we learn about {st.session_state['candidate_name']} during the call? (Mention anything interesting or memorable they shared.)"
+        q2_text = "2. Do you think they’re ready to lead a tour soon, or would it be better to wait and assign them to a future one? Give a reason why."
+        q3_text = f"3. What's {st.session_state['candidate_name']}'s plan for the tour? (Mention anything interesting or places that he/she has brought up during the interview)"
+
 
         # Extract answers
         q1 = extract_section(q1_text, q2_text, response)
