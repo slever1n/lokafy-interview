@@ -189,9 +189,9 @@ Transcript:
         st.write(response)
 
         # Extract Q1–Q4 using the question headings
-        q1_match = re.search(r"1\..*?\n(.*?)(?=\n2\.)", response, re.DOTALL)
-        q2_match = re.search(r"2\..*?\n(.*?)(?=\n3\.)", response, re.DOTALL)
-        q3_match = re.search(r"3\..*?\n(.*?)(?=\n\*\*Rubric Details\*\*)", response, re.DOTALL)
+        q1_match = re.search(r"What did we learn about.*?\n(.*?)(?=\n.*Do you think|2\.|Q2)", response, re.DOTALL | re.IGNORECASE)
+        q2_match = re.search(r"Do you think.*?\n(.*?)(?=\n.*What.*plan|3\.|Q3)", response, re.DOTALL | re.IGNORECASE)
+        q3_match = re.search(r"What.*plan.*?\n(.*?)(?=\n\*\*Rubric Details\*\*|4\.|Q4)", response, re.DOTALL | re.IGNORECASE)
         q4_match = re.search(r"\*\*Rubric Details\*\*(.*)", response, re.DOTALL)
 
         q1 = q1_match.group(1).strip() if q1_match else ""
