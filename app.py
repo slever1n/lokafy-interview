@@ -191,7 +191,7 @@ Transcript:
 
 
         def extract_section(start_marker, next_marker, text):
-            pattern = rf"{re.escape(start_marker)}(.*?)(?={re.escape(next_marker)}|\Z)"
+            pattern = rf"{re.escape(start_marker)}\s*(.*?)(?=\n\s*{re.escape(next_marker)}|\Z)"
             match = re.search(pattern, text, re.DOTALL)
             return match.group(1).strip() if match else ""
 
@@ -199,8 +199,13 @@ Transcript:
         q1_text = "**Q1."
         q2_text = "**Q2."
         q3_text = "**Q3."
-        rubric_marker = "**Communication Skills"
-
+        rubric_markers = [
+            "**Rubric Evaluation**",
+            "**Communication Skills**", 
+            "**Q4.**", 
+            "**Evaluation**"
+        ]
+        rubric_marker = next((m for m in rubric_markers if m in response), "**Communication Skills**")
 
         # Extract answers
         q1 = extract_section(q1_text, q2_text, response)
