@@ -141,12 +141,12 @@ Do not include any intros but make sure to include the questions when answering:
         5 = Exceptional ability to personalize and create an immersive experience.
 
     6. **Bonus Score (Optional)**  
-        Give up to 5 bonus points for answers based on these metrics:
-            Shared a unique, lesser-known fact about the city (+1)
-            Gave an exceptional storytelling example during the mock tour(+1)
-            Demonstrated strong adaptability (e.g., handled a difficult traveler scenario well)(+1)
-            Showed genuine passion for connecting with travelers(+1)
-            Suggested a creative or unique way to enhance traveler experience(+1)
+        Give up to 5 bonus points for answers if the candidate:
+            - Shared a unique, lesser-known fact about the city (+1)
+            - Gave an exceptional storytelling example during the mock tour(+1)
+            - Demonstrated strong adaptability (e.g., handled a difficult traveler scenario well)(+1)
+            - Showed genuine passion for connecting with travelers(+1)
+            - Suggested a creative or unique way to enhance traveler experience(+1)
 
     Please end with a **Total Score out of 30** (sum of the above).
 
@@ -167,10 +167,6 @@ Transcript:
         q2 = answers[2].strip() if len(answers) > 2 else ""
         q3 = answers[3].strip() if len(answers) > 3 else ""
         q4 = "".join(answers[4:]).strip() if len(answers) > 4 else ""
-
-        if st.button("📋 Copy Response to Clipboard"):
-            pyperclip.copy(response)
-            st.success("Response copied!")
 
         # Extract score breakdown
         scores = re.findall(r"\*\*(.*?)\*\*:.*?(?:\bscore\b|\brating\b)?[^\d]*(\d)(?:/5)?", response, re.IGNORECASE)
