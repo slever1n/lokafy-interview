@@ -231,7 +231,9 @@ Transcript:
             st.session_state["interviewer"],
             st.session_state["candidate_name"],
             st.session_state["transcript"],
-            q1, q2, q3,
+            q1,
+            q2,
+            q3,
             "",  # We'll remove Q4 text since we now break it down
             score_dict.get("Communication Skills", ""),
             explanation_dict.get("Communication Skills", ""),
