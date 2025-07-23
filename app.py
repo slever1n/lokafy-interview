@@ -190,39 +190,28 @@ Transcript:
         st.write(response)
 
 
-
-
         def extract_section(start_marker, next_marker, text):
             pattern = rf"{re.escape(start_marker)}(.*?)(?={re.escape(next_marker)}|\Z)"
             match = re.search(pattern, text, re.DOTALL)
             return match.group(1).strip() if match else ""
 
-        # Define question texts
+        # Define the marker for the start of Q4
+        rubric_marker = "**Rubric Evaluation**"
+
+        # Define question texts using the candidate's name from session
         q1_text = f"1. What stood out to you about {st.session_state['candidate_name']} during the call?"
         q2_text = "2. Do you think they’re ready to lead a tour soon, or would it be better to wait and assign them to a future one?"
         q3_text = f"3. What's {st.session_state['candidate_name']}'s plan for the tour?"
-        rubric_marker = "**Rubric Evaluation**"
 
-        # Extract answers based on markers
+        # Extract answers
         q1 = extract_section(q1_text, q2_text, response)
         q2 = extract_section(q2_text, q3_text, response)
         q3 = extract_section(q3_text, rubric_marker, response)
-        rubric_marker = "**Rubric Evaluation**"
-        
-        # Q4 = everything from rubric onwards
+
+        # Q4 = everything from the rubric section onward
         q4_start = response.find(rubric_marker)
         q4 = response[q4_start:].strip() if q4_start != -1 else ""
 
-
-        q1_match = re.search(r"1\..*?\n(.*?)(?=\n2\.|\n*Do you think|\nQ2)", response, re.DOTALL | re.IGNORECASE)
-        q2_match = re.search(r"2\..*?\n(.*?)(?=\n3\.|\n*What.*plan|\nQ3)", response, re.DOTALL | re.IGNORECASE)
-        q3_match = re.search(r"3\..*?\n(.*?)(?=\n4\.|\n*\*\*Rubric Evaluation\*\*|\nQ4)", response, re.DOTALL | re.IGNORECASE)
-        q4_match = re.search(r"\*\*Rubric Evaluation\*\*(.*)", response, re.DOTALL)
-
-        q1 = q1_match.group(1).strip() if q1_match else ""
-        q2 = q2_match.group(1).strip() if q2_match else ""
-        q3 = q3_match.group(1).strip() if q3_match else ""
-        q4 = "**Rubric Evaluation**\n" + q4_match.group(1).strip() if q4_match else ""
 
         rubric_keys = [
             "Communication Skills",
