@@ -199,9 +199,9 @@ Transcript:
         rubric_marker = "**Rubric Evaluation**"
 
         # Define question texts using the candidate's name from session
-        q1_text = "**Q1.**"
-        q2_text = "**Q2.**"
-        q3_text = "**Q3.**"
+        q1_text = "**Q1."
+        q2_text = "**Q2."
+        q3_text = "**Q3."
         rubric_marker = "**Rubric Evaluation**"
 
 
