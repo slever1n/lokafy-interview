@@ -141,7 +141,12 @@ Then, based on the rubric below, please evaluate the candidate in each category 
 5 = Exceptional ability to personalize and create an immersive experience.
 
 6. **Bonus Score (Optional)**  
-Give up to 5 bonus points for any exceptional or unique qualities (e.g. storytelling ability, adaptability, previous guide experience).
+Give up to 5 bonus points for answers based on these metrics:
+    Shared a unique, lesser-known fact about the city (+1)
+    Gave an exceptional storytelling example during the mock tour(+1)
+    Demonstrated strong adaptability (e.g., handled a difficult traveler scenario well)(+1)
+    Showed genuine passion for connecting with travelers(+1)
+    Suggested a creative or unique way to enhance traveler experience(+1)
 
 Please end with a **Total Score out of 30** (sum of the above).
 
