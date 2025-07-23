@@ -191,21 +191,29 @@ Transcript:
 
 
 
-        def extract_answer(question_text, full_text):
-            pattern = rf"{re.escape(question_text)}\s*(.*?)(?=\n\d\.|\Z)"
-            match = re.search(pattern, full_text, re.DOTALL)
+
+        def extract_section(start_marker, next_marker, text):
+            pattern = rf"{re.escape(start_marker)}(.*?)(?={re.escape(next_marker)}|\Z)"
+            match = re.search(pattern, text, re.DOTALL)
             return match.group(1).strip() if match else ""
 
-        q1 = extract_answer(f"What stood out to you about {st.session_state['candidate_name']} during the call?", response)
-        q2 = extract_answer("Do you think they’re ready to lead a tour soon, or would it be better to wait and assign them to a future one?", response)
-        q3 = extract_answer(f"What's {st.session_state['candidate_name']}'s plan for the tour?", response)
+        # Define question texts
+        q1_text = f"1. What stood out to you about {st.session_state['candidate_name']} during the call?"
+        q2_text = "2. Do you think they’re ready to lead a tour soon, or would it be better to wait and assign them to a future one?"
+        q3_text = f"3. What's {st.session_state['candidate_name']}'s plan for the tour?"
 
-        # Fallback for Q4
-        q4_start = response.find("**Rubric Evaluation**")
+        # Extract answers based on markers
+        q1 = extract_section(q1_text, q2_text, response)
+        q2 = extract_section(q2_text, q3_text, response)
+
+        # Q3 = from q3_text to **Rubric Evaluation**
+        rubric_marker = "**Rubric Evaluation**"
+        q3 = extract_section(q3_text, rubric_marker, response)
+
+        # Q4 = everything from rubric onwards
+        q4_start = response.find(rubric_marker)
         q4 = response[q4_start:].strip() if q4_start != -1 else ""
 
-        st.write("RAW Gemini response:")
-        st.code(response)
 
         q1_match = re.search(r"1\..*?\n(.*?)(?=\n2\.|\n*Do you think|\nQ2)", response, re.DOTALL | re.IGNORECASE)
         q2_match = re.search(r"2\..*?\n(.*?)(?=\n3\.|\n*What.*plan|\nQ3)", response, re.DOTALL | re.IGNORECASE)
