@@ -181,24 +181,13 @@ Transcript:
         score_dict = {}
 
         for key in rubric_keys:
-            patterns = [
-                rf"{re.escape(key)}\s*[:\-–]\s*(\d)(?:/5)?",                   # e.g., "Communication Skills: 4"
-                rf"{re.escape(key)}.*?score.*?(\d)(?:/5)?",                   # e.g., "Communication Skills... Score: 4"
-                rf"{re.escape(key)}.*?(\d)(?:/5)?",                           # fallback: any digit after label
-            ]
-            match = None
-            for pattern in patterns:
-                match = re.search(pattern, response, re.IGNORECASE | re.DOTALL)
-                if match:
-                    score_dict[key] = match.group(1)
-                    break
-            if not match:
+            match = re.search(rf"{re.escape(key)}.*?(\d)(?:/5)?", response, re.IGNORECASE)
+            if match:
+                score_dict[key] = match.group(1)
+            else:
                 score_dict[key] = ""
 
         total_score = sum(int(v) for v in score_dict.values() if v.isdigit())
-
-        st.write("🎯 Extracted Scores:", score_dict)
-        st.write("🔢 Total Score:", total_score)
 
         # Save to Google Sheets
         timestamp = datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%d %H:%M:%S")
