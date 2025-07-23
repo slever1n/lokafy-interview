@@ -68,30 +68,18 @@ client = gspread.authorize(gsheet_creds)
 sheet = client.open("Lokafy Interview Sheet").sheet1
 
 # ----------------------------
-# Define rubric keys
-# ----------------------------
-rubric_keys = [
-    "Communication Skills",
-    "Local Knowledge",
-    "Enthusiasm & Engagement",
-    "Problem-Solving Ability",
-    "Traveler Interaction",
-    "Bonus Score"
-]
-
-# ----------------------------
 # App UI
 # ----------------------------
 st.title("🎤 Lokafy Interview Analysis")
 
 st.text_input("👤 Interviewer's Name", key="interviewer")
-st.text_input("🪽 Lokafyer's Name", key="candidate_name")
+st.text_input("🧍 Lokafyer's Name", key="candidate_name")
 st.text_area("📝 Paste the call transcript", key="transcript")
 
 col1, col2, col3 = st.columns([1, 4, 1])
 
 with col1:
-    st.button("🩹 Clear", on_click=clear_all_fields)
+    st.button("🧹 Clear", on_click=clear_all_fields)
 
 with col3:
     analyze_clicked = st.button("🔍 Analyze")
@@ -109,7 +97,7 @@ You're a member of a team reviewing candidates for walking tour guide roles. Bas
 Please answer these in a natural, human tone — as if you're casually writing a note to your teammate. Provide humanized answers and avoid using em-dashes.
 Do not include any intros but make sure to include the questions when answering:
 
-1. What did we learn about {st.session_state['candidate_name']} during the call? (Mention anything interesting or memorable they shared.)
+1. What stood out to you about {st.session_state['candidate_name']} during the call? (Mention anything interesting or memorable they shared.)
 2. Do you think they’re ready to lead a tour soon, or would it be better to wait and assign them to a future one? Give a reason why.
 3. What's {st.session_state['candidate_name']}'s plan for the tour? (Mention anything interesting or places that he/she has brought up during the interview)
 
@@ -181,10 +169,20 @@ Transcript:
         q4 = "".join(answers[4:]).strip() if len(answers) > 4 else ""
 
         # Extract score breakdown
+        rubric_keys = [
+            "Communication Skills",
+            "Local Knowledge",
+            "Enthusiasm & Engagement",
+            "Problem-Solving Ability",
+            "Traveler Interaction",
+            "Bonus Score"
+        ]
+
         score_dict = {}
 
         for key in rubric_keys:
-            match = re.search(rf"{re.escape(key)}.*?(\d)(?:/5)?", response, re.IGNORECASE)
+            pattern = rf"{re.escape(key)}.*?(?:Score:)?\s*(\d)(?:\s*/\s*5)?"
+            match = re.search(pattern, response, re.IGNORECASE | re.DOTALL)
             if match:
                 score_dict[key] = match.group(1)
             else:
