@@ -5,6 +5,7 @@ import re
 import pyperclip
 from google.oauth2.service_account import Credentials
 from datetime import datetime, timezone, timedelta
+import re
 
 # ----------------------------
 # Helper Functions
@@ -188,13 +189,23 @@ Transcript:
         st.subheader("🧠 AI Analysis")
         st.write(response)
 
-        answers = re.split(r"\*\*?\s*\d\.\s.*?\*\*?", response)
 
-        q1 = answers[1].strip() if len(answers) > 1 else ""
-        q2 = answers[2].strip() if len(answers) > 2 else ""
-        q3 = answers[3].strip() if len(answers) > 3 else ""
-        q4 = "".join(answers[4:]).strip() if len(answers) > 4 else ""
 
+        def extract_answer(question_text, full_text):
+            pattern = rf"{re.escape(question_text)}\s*(.*?)(?=\n\d\.|\Z)"
+            match = re.search(pattern, full_text, re.DOTALL)
+            return match.group(1).strip() if match else ""
+
+        q1 = extract_answer(f"What stood out to you about {st.session_state['candidate_name']} during the call?", response)
+        q2 = extract_answer("Do you think they’re ready to lead a tour soon, or would it be better to wait and assign them to a future one?", response)
+        q3 = extract_answer(f"What's {st.session_state['candidate_name']}'s plan for the tour?", response)
+
+        # Fallback for Q4
+        q4_start = response.find("**Rubric Evaluation**")
+        q4 = response[q4_start:].strip() if q4_start != -1 else ""
+
+        st.write("RAW Gemini response:")
+        st.code(response)
 
         q1_match = re.search(r"1\..*?\n(.*?)(?=\n2\.|\n*Do you think|\nQ2)", response, re.DOTALL | re.IGNORECASE)
         q2_match = re.search(r"2\..*?\n(.*?)(?=\n3\.|\n*What.*plan|\nQ3)", response, re.DOTALL | re.IGNORECASE)
