@@ -1,4 +1,4 @@
-import streamlit as st
+    import streamlit as st
 import google.generativeai as genai
 import gspread
 import re
@@ -149,6 +149,34 @@ Do not include any intros but make sure to include the questions when answering:
             - Suggested a creative or unique way to enhance traveler experience(+1)
 
     Please end with a **Total Score out of 30** (sum of the above).
+
+        Format your responses this way:
+        **Communication Skills**  
+        Score: X/5  
+        Explanation: ...
+
+        **Local Knowledge**  
+        Score: X/5  
+        Explanation: ...
+
+        **Enthusiasm & Engagement**  
+        Score: X/5  
+        Explanation: ...
+
+        **Problem-Solving Ability**  
+        Score: X/5  
+        Explanation: ...
+
+        **Traveler Interaction**  
+        Score: X/5  
+        Explanation: ...
+
+        **Bonus Score**  
+        Score: X/5  
+        Explanation: ...
+
+        End with a line that says:  
+        **Total Score out of 30:** 
 
 Transcript:
 {st.session_state['transcript']}
