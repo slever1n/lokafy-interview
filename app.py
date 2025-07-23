@@ -188,18 +188,16 @@ Transcript:
         st.subheader("🧠 AI Analysis")
         st.write(response)
 
-        # Extract Q1–Q4 using the question headings
-        q1_match = re.search(r"What did we learn about.*?\n(.*?)(?=\n.*Do you think|2\.|Q2)", response, re.DOTALL | re.IGNORECASE)
-        q2_match = re.search(r"Do you think.*?\n(.*?)(?=\n.*What.*plan|3\.|Q3)", response, re.DOTALL | re.IGNORECASE)
-        q3_match = re.search(r"What.*plan.*?\n(.*?)(?=\n\*\*Rubric Details\*\*|4\.|Q4)", response, re.DOTALL | re.IGNORECASE)
-        q4_match = re.search(r"\*\*Rubric Details\*\*(.*)", response, re.DOTALL)
+        q1_match = re.search(r"1\..*?\n(.*?)(?=\n2\.|\n*Do you think|\nQ2)", response, re.DOTALL | re.IGNORECASE)
+        q2_match = re.search(r"2\..*?\n(.*?)(?=\n3\.|\n*What.*plan|\nQ3)", response, re.DOTALL | re.IGNORECASE)
+        q3_match = re.search(r"3\..*?\n(.*?)(?=\n4\.|\n*\*\*Rubric Evaluation\*\*|\nQ4)", response, re.DOTALL | re.IGNORECASE)
+        q4_match = re.search(r"\*\*Rubric Evaluation\*\*(.*)", response, re.DOTALL)
 
         q1 = q1_match.group(1).strip() if q1_match else ""
         q2 = q2_match.group(1).strip() if q2_match else ""
         q3 = q3_match.group(1).strip() if q3_match else ""
         q4 = "**Rubric Evaluation**\n" + q4_match.group(1).strip() if q4_match else ""
 
-        # Extract score breakdown
         rubric_keys = [
             "Communication Skills",
             "Local Knowledge",
@@ -213,7 +211,7 @@ Transcript:
         explanation_dict = {}
 
         for key in rubric_keys:
-            pattern = rf"\*\*{re.escape(key)}\*\*\s*Score:\s*(\d)(?:/5)?\s*Explanation:\s*(.*?)(?=\n\*\*|$)"
+            pattern = rf"\*\*{re.escape(key)}\*\*\s*Score:\s*(\d)(?:/5)?\s*Explanation:\s*(.*?)(?=\n\*\*|\n*$)"
             match = re.search(pattern, response, re.DOTALL | re.IGNORECASE)
             if match:
                 score_dict[key] = match.group(1).strip()
@@ -224,7 +222,6 @@ Transcript:
 
         total_score = sum(int(v) for v in score_dict.values() if v.isdigit())
 
-        # Save to Google Sheets
         timestamp = datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%d %H:%M:%S")
         row = [
             timestamp,
@@ -234,7 +231,7 @@ Transcript:
             q1,
             q2,
             q3,
-            "",  # We'll remove Q4 text since we now break it down
+            q4,
             score_dict.get("Communication Skills", ""),
             explanation_dict.get("Communication Skills", ""),
             score_dict.get("Local Knowledge", ""),
@@ -249,7 +246,6 @@ Transcript:
             explanation_dict.get("Bonus Score", ""),
             total_score
         ]
-
 
         sheet.append_row(row)
         st.success("✅ Saved to Google Sheets!")
