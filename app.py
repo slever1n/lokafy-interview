@@ -201,15 +201,14 @@ Transcript:
         q1_text = f"1. What stood out to you about {st.session_state['candidate_name']} during the call?"
         q2_text = "2. Do you think they’re ready to lead a tour soon, or would it be better to wait and assign them to a future one?"
         q3_text = f"3. What's {st.session_state['candidate_name']}'s plan for the tour?"
+        rubric_marker = "**Rubric Evaluation**"
 
         # Extract answers based on markers
         q1 = extract_section(q1_text, q2_text, response)
         q2 = extract_section(q2_text, q3_text, response)
-
-        # Q3 = from q3_text to **Rubric Evaluation**
-        rubric_marker = "**Rubric Evaluation**"
         q3 = extract_section(q3_text, rubric_marker, response)
-
+        rubric_marker = "**Rubric Evaluation**"
+        
         # Q4 = everything from rubric onwards
         q4_start = response.find(rubric_marker)
         q4 = response[q4_start:].strip() if q4_start != -1 else ""
