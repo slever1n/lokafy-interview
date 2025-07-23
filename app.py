@@ -190,7 +190,7 @@ Transcript:
 
 
         def extract_section(start_marker, next_marker, text):
-            pattern = rf"{re.escape(start_marker)}\s*(.*?)(?=\n\s*{re.escape(next_marker)}|\Z)"
+            pattern = rf"{re.escape(start_marker)}\s*\**(.*?)(?=\n\s*{re.escape(next_marker)}|\Z)"
             match = re.search(pattern, text, re.DOTALL)
             return match.group(1).strip() if match else ""
 
