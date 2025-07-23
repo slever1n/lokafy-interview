@@ -101,54 +101,54 @@ Do not include any intros but make sure to include the questions when answering:
 2. Do you think they’re ready to lead a tour soon, or would it be better to wait and assign them to a future one? Give a reason why.
 3. What's {st.session_state['candidate_name']}'s plan for the tour? (Mention anything interesting or places that he/she has brought up during the interview)
 
-Then, based on the rubric below, please evaluate the candidate in each category with a score from 1 to 5, and provide a brief explanation for each. Be sure to follow the scoring descriptions closely when deciding on a rating.
+4. Then, based on the rubric below, please evaluate the candidate in each category with a score from 1 to 5, and provide a brief explanation for each. Be sure to follow the scoring descriptions closely when deciding on a rating.
 
-**Rubric Details**
+    **Rubric Details**
 
-1. **Communication Skills**  
-1 = Struggles to articulate thoughts, unclear and difficult to understand.  
-2 = Speaks hesitantly, lacks confidence, or uses minimal detail.  
-3 = Communicates adequately, but lacks enthusiasm or clarity.  
-4 = Speaks clearly and confidently with good engagement.  
-5 = Engaging, confident, and articulate; explains concepts vividly.
+    1. **Communication Skills**  
+        1 = Struggles to articulate thoughts, unclear and difficult to understand.  
+        2 = Speaks hesitantly, lacks confidence, or uses minimal detail.  
+        3 = Communicates adequately, but lacks enthusiasm or clarity.  
+        4 = Speaks clearly and confidently with good engagement.  
+        5 = Engaging, confident, and articulate; explains concepts vividly.
 
-2. **Local Knowledge**  
-1 = Cannot name or describe local landmarks.  
-2 = Names places but struggles to explain their significance.  
-3 = Identifies some locations but lacks depth in explanations.  
-4 = Names and describes places well with some unique insights.  
-5 = Provides detailed, engaging descriptions with historical or cultural context.
+    2. **Local Knowledge**  
+        1 = Cannot name or describe local landmarks.  
+        2 = Names places but struggles to explain their significance.  
+        3 = Identifies some locations but lacks depth in explanations.  
+        4 = Names and describes places well with some unique insights.  
+        5 = Provides detailed, engaging descriptions with historical or cultural context.
 
-3. **Enthusiasm & Engagement**  
-1 = Shows no enthusiasm or interest in being a Lokafyer.  
-2 = Seems unsure or unmotivated.  
-3 = Interested but lacks energy or passion.  
-4 = Shows excitement and genuine interest in connecting with travelers.  
-5 = Highly passionate, charismatic, and eager to create a great experience.
+    3. **Enthusiasm & Engagement**  
+        1 = Shows no enthusiasm or interest in being a Lokafyer.  
+        2 = Seems unsure or unmotivated.  
+        3 = Interested but lacks energy or passion.  
+        4 = Shows excitement and genuine interest in connecting with travelers.  
+        5 = Highly passionate, charismatic, and eager to create a great experience.
 
-4. **Problem-Solving Ability**  
-1 = Cannot provide a solution to a traveler issue.  
-2 = Struggles to handle difficult situations effectively.  
-3 = Offers basic responses but lacks adaptability.  
-4 = Can think quickly and offers reasonable solutions.  
-5 = Handles situations creatively and proactively.
+    4. **Problem-Solving Ability**  
+        1 = Cannot provide a solution to a traveler issue.  
+        2 = Struggles to handle difficult situations effectively.  
+        3 = Offers basic responses but lacks adaptability.  
+        4 = Can think quickly and offers reasonable solutions.  
+        5 = Handles situations creatively and proactively.
 
-5. **Traveler Interaction**  
-1 = Lacks engagement, does not personalize the experience.  
-2 = Engages minimally, lacks warmth.  
-3 = Tries to connect with travelers but not very dynamic.  
-4 = Engages well, makes the tour feel interactive.  
-5 = Exceptional ability to personalize and create an immersive experience.
+    5. **Traveler Interaction**  
+        1 = Lacks engagement, does not personalize the experience.  
+        2 = Engages minimally, lacks warmth.  
+        3 = Tries to connect with travelers but not very dynamic.  
+        4 = Engages well, makes the tour feel interactive.  
+        5 = Exceptional ability to personalize and create an immersive experience.
 
-6. **Bonus Score (Optional)**  
-Give up to 5 bonus points for answers based on these metrics:
-    Shared a unique, lesser-known fact about the city (+1)
-    Gave an exceptional storytelling example during the mock tour(+1)
-    Demonstrated strong adaptability (e.g., handled a difficult traveler scenario well)(+1)
-    Showed genuine passion for connecting with travelers(+1)
-    Suggested a creative or unique way to enhance traveler experience(+1)
+    6. **Bonus Score (Optional)**  
+        Give up to 5 bonus points for answers based on these metrics:
+            Shared a unique, lesser-known fact about the city (+1)
+            Gave an exceptional storytelling example during the mock tour(+1)
+            Demonstrated strong adaptability (e.g., handled a difficult traveler scenario well)(+1)
+            Showed genuine passion for connecting with travelers(+1)
+            Suggested a creative or unique way to enhance traveler experience(+1)
 
-Please end with a **Total Score out of 30** (sum of the above).
+    Please end with a **Total Score out of 30** (sum of the above).
 
 Transcript:
 {st.session_state['transcript']}
