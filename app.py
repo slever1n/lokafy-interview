@@ -217,7 +217,7 @@ Transcript:
         for key in rubric_keys:
             pattern = rf"\*\*{re.escape(key)}\*\*\s*Score:\s*(\d)(?:/5)?\s*Explanation:\s*(.*?)(?=\n\*\*|$)"
             match = re.search(pattern, response, re.DOTALL | re.IGNORECASE)
-             if match:
+            if match:
                 score_dict[key] = match.group(1).strip()
                 explanation_dict[key] = match.group(2).strip()
             else:
