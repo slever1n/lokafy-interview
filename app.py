@@ -4,6 +4,8 @@ import gspread
 import re
 import pyperclip
 from google.oauth2.service_account import Credentials
+from datetime import datetime
+
 
 def clear_all_fields():
     st.session_state.interviewer = ""
@@ -125,7 +127,10 @@ Here’s the transcript to base your thoughts on:
             st.success("Response copied!")
 
         # Save to Google Sheets
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
         sheet.append_row([
+            timestamp,
             st.session_state["interviewer"],
             st.session_state["candidate_name"],
             st.session_state["transcript"],
@@ -134,6 +139,7 @@ Here’s the transcript to base your thoughts on:
             q3,
             q4
         ])
+
         st.success("✅ Saved to Google Sheets!")
 
         st.markdown("📄 [View Interview Sheet on Google Sheets](https://docs.google.com/spreadsheets/d/1bHODbSJmSZpl3iXPovuUDVTFrWph5xwP426OOHvWr08/edit?usp=sharing)")
