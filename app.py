@@ -98,9 +98,9 @@ You're a member of a team reviewing candidates for walking tour guide roles. Bas
 Please answer these in a natural, human tone — as if you're casually writing a note to your teammate. Provide humanized answers and avoid using em-dashes.
 Do not include any intros but make sure to include the questions when answering:
 
-1. What did we learn about {st.session_state['candidate_name']} during the call? (Mention anything interesting or memorable they shared.)
-2. Do you think they’re ready to lead a tour soon, or would it be better to wait and assign them to a future one? Give a reason why.
-3. What's {st.session_state['candidate_name']}'s plan for the tour? (Mention anything interesting or places that he/she has brought up during the interview)
+**Q1.** What did we learn about {st.session_state['candidate_name']} during the call? (Mention anything interesting or memorable they shared.)
+**Q2.** Do you think they're ready to lead a tour soon, or would it be better to wait and assign them to a future one? Give a reason why.
+**Q3.** What's {st.session_state['candidate_name']}'s plan for the tour? (Mention anything interesting or places that he/she has brought up during the interview)
 
 4. Then, based on the rubric below, please evaluate the candidate in each category with a score from 1 to 5, and provide a brief explanation for each. Be sure to follow the scoring descriptions closely when deciding on a rating.
 
@@ -199,9 +199,9 @@ Transcript:
         rubric_marker = "**Rubric Evaluation**"
 
         # Define question texts using the candidate's name from session
-        q1_text = f"1. What did we learn about {st.session_state['candidate_name']} during the call? (Mention anything interesting or memorable they shared.)"
-        q2_text = "2. Do you think they’re ready to lead a tour soon, or would it be better to wait and assign them to a future one? Give a reason why."
-        q3_text = f"3. What's {st.session_state['candidate_name']}'s plan for the tour? (Mention anything interesting or places that he/she has brought up during the interview)"
+        q1_text = "**Q1.**"
+        q2_text = "**Q2.**"
+        q3_text = "**Q3.**"
 
 
         # Extract answers
