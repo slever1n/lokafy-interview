@@ -241,11 +241,21 @@ Transcript:
         total_score = sum(int(v) for v in score_dict.values() if v.isdigit())
 
         timestamp = datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%d %H:%M:%S")
+
+        # Truncate transcript if it's too long
+        max_cell_size = 49000
+        transcript = st.session_state["transcript"]
+        transcript_truncated = False
+
+        if len(transcript) > max_cell_size:
+            transcript = transcript[:max_cell_size] + "\n...[Transcript truncated due to Google Sheets limit]"
+            transcript_truncated = True
+        
         row = [
             timestamp,
             st.session_state["interviewer"],
             st.session_state["candidate_name"],
-            st.session_state["transcript"],
+            transcript,  # this will now be truncated if needed
             q1,
             q2,
             q3,
@@ -265,7 +275,11 @@ Transcript:
             total_score
         ]
 
+
         sheet.append_row(row)
+        if transcript_truncated:
+            st.warning("⚠️ Transcript was too long and has been truncated to fit within Google Sheets limits (max 50,000 characters per cell).")
+
         st.success("✅ Saved to Google Sheets!")
 
         st.markdown("📄 [View Interview Sheet on Google Sheets](https://docs.google.com/spreadsheets/d/1bHODbSJmSZpl3iXPovuUDVTFrWph5xwP426OOHvWr08/edit?usp=sharing)")
